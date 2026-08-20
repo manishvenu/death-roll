@@ -1,0 +1,53 @@
+# Final validation case for the runoff-mapping-scaling effort (mom6_forge
+# PR #125, commits 5b06efd..724a0a1): exercises the simplified, final
+# workflow (shape-lookup fix + nccopy write-path fix; no cropping, vertex
+# coords vectorized) through the real CrocoDash/CIME pipeline, with no
+# rof_esmf_mesh_filepath override - so it uses CIME's actual registered
+# global GLOFAS mesh (21.6M elements), the real production path.
+#
+# Same tiny 2x2 deg Gulf of Mexico domain as tiny_gulf01/crop_fix_global_test
+# for a fast OBC/IC step; the runoff step is what this case actually tests.
+
+grid:
+  lenx: 2.0
+  leny: 2.0
+  resolution: 0.08333333
+  xstart: -91.0
+  ystart: 28.5
+  name: final_workflow_test
+
+topo:
+  min_depth: 10
+  source:
+    type: flat
+    depth: 2000
+
+vgrid:
+  type: uniform
+  nk: 5
+
+case:
+  cesmroot: /glade/u/home/manishrv/work/installs/full_regional_cesm
+  caseroot: /glade/u/home/manishrv/croc_cases/runoff_mapping_scaling/final_workflow_test
+  inputdir: /glade/u/home/manishrv/scratch/croc_input/runoff_mapping_scaling/final_workflow_test
+  compset: 1850_DATM%NYF_SLND_SICE_MOM6%REGIONAL_DROF%GLOFAS_SGLC_SWAV
+  machine: derecho
+  atm_grid_name: T62
+  rof_grid_name: null
+  ninst: 1
+  project: ncgd0011
+  ntasks_ocn: null
+  job_queue: null
+  job_wallclock_time: null
+
+forcings:
+  date_range:
+    - "2020-01-01 00:00:00"
+    - "2020-01-09 00:00:00"
+  boundaries:
+    - north
+    - east
+    - south
+    - west
+  product_name: GLORYS
+  function_name: get_glorys_data_from_rda

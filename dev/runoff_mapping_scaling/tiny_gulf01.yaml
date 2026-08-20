@@ -1,0 +1,60 @@
+# Tiny scaling-test case for runoff-mapping optimization work.
+#
+# Domain: 2x2 deg box in the northern Gulf of Mexico (Mississippi Delta area),
+# chosen because it overlaps ~7 active source points in ajanney's regional
+# GLOFAS_CARIB12 mesh (of 270 active points total, most of the mesh is masked
+# land/inactive). At 1/12 deg resolution this is ~24x24 ocean cells - small
+# enough that both the nearest-neighbor regrid and the smoothing-kernel step
+# (mom6_forge.mapping.gen_rof_maps) should complete in well under 10 minutes.
+#
+# rof_esmf_mesh_filepath below overrides the default global GLOFAS ESMF mesh
+# (normally pulled from CIME's config_grids.xml / DIN_LOC_ROOT) with ajanney's
+# smaller CARIB12-region mesh. This override is undocumented but functional:
+# Case.configure_forcings(**forcings) forwards arbitrary kwargs straight into
+# the Runoff configurator's constructor (see CrocoDash/case.py:configure_forcings,
+# forcing_configurations/configurations.py RunoffConfigurator.__init__).
+
+grid:
+  lenx: 2.0
+  leny: 2.0
+  resolution: 0.08333333
+  xstart: -91.0
+  ystart: 28.5
+  name: runoff_scale_tiny_gulf01
+
+topo:
+  min_depth: 10
+  source:
+    type: flat
+    depth: 2000
+
+vgrid:
+  type: uniform
+  nk: 5
+
+case:
+  cesmroot: /glade/u/home/manishrv/work/installs/full_regional_cesm
+  caseroot: /glade/u/home/manishrv/croc_cases/runoff_mapping_scaling/tiny_gulf01
+  inputdir: /glade/u/home/manishrv/scratch/croc_input/runoff_mapping_scaling/tiny_gulf01
+  compset: 1850_DATM%NYF_SLND_SICE_MOM6%REGIONAL_DROF%GLOFAS_SGLC_SWAV
+  machine: derecho
+  atm_grid_name: T62
+  rof_grid_name: null
+  ninst: 1
+  project: ncgd0011
+  ntasks_ocn: null
+  job_queue: null
+  job_wallclock_time: null
+
+forcings:
+  date_range:
+    - "2020-01-01 00:00:00"
+    - "2020-01-09 00:00:00"
+  boundaries:
+    - north
+    - east
+    - south
+    - west
+  product_name: GLORYS
+  function_name: get_glorys_data_from_rda
+  rof_esmf_mesh_filepath: /glade/u/home/manishrv/scratch/croc_input/runoff_mapping_scaling/reference_files/GLOFAS_CARIB12_mesh.nc
