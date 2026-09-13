@@ -1,0 +1,33 @@
+#!/bin/bash
+# Build one Alaska CESM case.
+#
+# Independent of forcing extraction: case.build compiles MOM6/CICE/DATM and only
+# needs the case's namelists, while the GLORYS boundary files are read at run
+# time. So this can run alongside `crocodash process` rather than after it.
+#
+# Submit with:
+#   qsub -v CASEROOT=/glade/u/home/manishrv/croc_cases/alaska_small \
+#        -N bd_small submit_build.pbs
+#
+#PBS -A ncgd0011
+#PBS -q develop
+#PBS -l walltime=02:00:00
+#PBS -l select=1:ncpus=16:mem=80GB
+#PBS -j oe
+#PBS -o /glade/derecho/scratch/manishrv/crocodash_logs/
+
+set -euo pipefail
+: "${CASEROOT:?CASEROOT must be passed via qsub -v CASEROOT=...}"
+cd "$CASEROOT"
+
+echo "host     : $(hostname)"
+echo "caseroot : $CASEROOT"
+echo "started  : $(date)"
+echo
+
+# case.setup is idempotent and CrocoDash may or may not have run it already.
+./case.setup 2>&1 | tail -5 || ./case.setup --reset 2>&1 | tail -5
+./case.build
+
+echo
+echo "finished : $(date)"

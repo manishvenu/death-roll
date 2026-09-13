@@ -35,7 +35,7 @@ Key submodules:
 - `forcing_configurations/` — forcing config registry
 - `rm6/` — embedded submodule copy of regional-mom6
 - `visualCaseGen/` — embedded submodule copy of visualCaseGen
-- `demos/` — embedded submodule copy of CrocoGallery
+- `gallery/` — embedded submodule copy of CrocoGallery
 
 
 **visualCaseGen** uses constraint satisfaction (via `ProConPy/csp_solver.py` and `config_var.py`) to validate CESM case configs before creation. Interfaces with CIME through `cime_interface.py`.

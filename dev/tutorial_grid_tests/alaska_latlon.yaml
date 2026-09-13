@@ -1,0 +1,40 @@
+# CrocoDash case config — Domain A: alaska_latlon
+# Plain lat/lon grid, 63-68N / 160-170W, 1/12 degree resolution.
+# Generated alongside alaska_albers.yaml / alaska_albers_wide.yaml — see
+# /Users/manishrv/dev/alaska_grids.ipynb for how the three domains were built,
+# and DERECHO_HANDOFF.md (same directory as this file) for full context.
+#
+# Run: crocodash create --config alaska_latlon.yaml
+
+grid:
+  resolution: 0.08333333333333333   # 1/12 degree
+  xstart: 190.0                     # 170W, in [0, 360] convention
+  lenx: 10.0                        # -> 160W
+  ystart: 63.0
+  leny: 5.0                         # -> 68N
+  name: alaska_latlon
+
+topo:
+  min_depth: 9.5
+  source:
+    type: flat
+    depth: 3000.0
+
+vgrid:
+  type: uniform
+  nk: 10   # small for a fast smoke test; raise once builds are confirmed clean
+
+case:
+  cesmroot: /glade/u/home/manishrv/work/installs/full_regional_cesm
+  caseroot: /glade/u/home/manishrv/croc_cases/alaska_latlon
+  inputdir: /glade/u/home/manishrv/scratch/croc_input/alaska_latlon_v2
+  compset: "1850_DATM%NYF_SLND_SICE_MOM6%REGIONAL_SROF_SGLC_SWAV_SESP"
+  machine: casper
+  project: ncgd0011
+  atm_grid_name: T62   # NYF requires T62, not TL319 (which is for JRA)
+
+forcings:
+  date_range: ["2018-06-21 00:00:00", "2018-08-15 00:00:00"]   # summer 2018, ~8 weeks
+  boundaries: [north, south, east, west]
+  product_name: reference_ocean          # synthetic in-memory forcing, no download needed
+  function_name: get_reference_ocean_data

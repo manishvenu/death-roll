@@ -1,0 +1,39 @@
+#!/bin/bash
+# Run `crocodash create` for one of the Alaska cases as a Derecho batch job.
+#
+# Why a batch job rather than `ssh derecho '<cmd>'`: the interactive route died
+# with ssh exit 255 (connection dropped) part way through case construction, and
+# a login node is the wrong place for the GEBCO topo window anyway. Submitting
+# decouples the work from the ssh session entirely.
+#
+# Memory: 64GB was OOM-killed during topo construction. Both Alaska domains
+# cross the antimeridian, and for a seam-crossing request mom6_forge's
+# longitude_slicer deliberately returns the entire dataset -- so the GEBCO read
+# is the full 7.5 GB global array, not a regional window, and a few working
+# copies of that overflow anything modest. Hence a near-whole-node request.
+#
+# Submit with CFG (and optionally CROCODASH_ARGS) passed through:
+#   qsub -v CFG=/path/alaska_small.yaml -N cd_small submit_crocodash.pbs
+#
+#PBS -A ncgd0011
+#PBS -q develop
+#PBS -l walltime=03:00:00
+#PBS -l select=1:ncpus=64:mem=220GB
+#PBS -j oe
+#PBS -o /glade/derecho/scratch/manishrv/crocodash_logs/
+
+set -euo pipefail
+source /glade/u/apps/opt/miniforge/25.11/etc/profile.d/conda.sh
+conda activate CrocoDash
+
+echo "host        : $(hostname)"
+echo "ESMFMKFILE  : ${ESMFMKFILE:-<unset>}"
+echo "config      : ${CFG:?CFG must be passed via qsub -v CFG=...}"
+echo "extra args  : ${CROCODASH_ARGS:-<none>}"
+echo "started     : $(date)"
+echo
+
+crocodash create --config "$CFG" ${CROCODASH_ARGS:-}
+
+echo
+echo "finished    : $(date)"

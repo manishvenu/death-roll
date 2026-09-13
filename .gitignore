@@ -8,3 +8,16 @@ testing/
 mom_input/
 mom_run/
 TopoLibrary/
+
+# Local git worktrees (all submodules)
+*-worktrees/
+
+# User/machine-specific paths
+dev/manish_paths.json
+
+# CESM run logs left in the working tree
+PET*.ESMF_LogFile
+
+# Local scratch notebook dirs (not tracked upstream)
+mom6_forge_notebooks/
+regional_mom_workflows/Bask/

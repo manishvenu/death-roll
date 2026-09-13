@@ -46,18 +46,12 @@
 [submodule "dev/MCP_regional_ocean_debugger"]
 	path = dev/MCP_regional_ocean_debugger
 	url = git@github.com:CROCODILE-CESM/MCP_regional_ocean_debugger.git
-[submodule "dev/CrocoDash_ww3"]
-	path = dev/CrocoDash_ww3
-	url = https://github.com/CROCODILE-CESM/CrocoDash
-[submodule "regional_mom_workflows/diag_manager"]
-	path = regional_mom_workflows/diag_manager
-	url = git@github.com:anthony-meza/mom6_diagnostics_gui.git
 [submodule "regional_mom_workflows/staged-recipes"]
 	path = regional_mom_workflows/staged-recipes
 	url = git@github.com:CROCODILE-CESM/staged-recipes.git
 [submodule "regional_mom_workflows/tx2_3"]
 	path = regional_mom_workflows/tx2_3
 	url = git@github.com:NCAR/tx2_3.git
-[submodule "dev/mf_2"]
-	path = dev/mf_2
-	url = git@github.com:NCAR/mom6_forge.git
+[submodule "dev/WW3_interface"]
+	path = dev/WW3_interface
+	url = git@github.com:CROCODILE-CESM/WW3_interface.git
