@@ -89,10 +89,10 @@ for the open ones to merge, and ask before opening anything.
 | Q4 | C | `case-from-caseroot` | Q1 | pushed (7fc0c524, on config-read) | |
 | Q5 | T | `tseries-time-slice` | Q8 | pushed (64c04e3a, rebased onto time-windows; + IC uses the record at or before the start) | |
 | Q6 | T | `typed-freq-inputs` | Q1, Q3 | pushed (81d73d05, on time-sampling + merged config-read) | |
-| Q7 | C | `declared-output-files-v2` | Q4 | pushed (ad374ac0, on case-from-caseroot) | |
+| Q7 | C | `declared-output-files-v2` | Q4 | pushed (d1ef365e, on case-from-caseroot; + `process_forcings(preview=)` 2026-10-26) | |
 | Q8 | T | `time-windows` | Q1, Q6 | pushed (e8ca94cd, on typed-freq-inputs: #305's 4 commits + amendments) | |
 | Q9 | — | `forcing-param-specs` | Q1 | pushed (0371a028, on config-read) | |
-| Q10 | C | `finished-steps` | Q7 | pushed (f7e9583d, on declared-output-files-v2) | |
+| Q10 | C | `finished-steps` | Q7 | pushed (7d8567a7, rebased onto d1ef365e 2026-10-26: `process_forcings(preview=False, force=False)`) | |
 | Q11 | S | `configure-existing-case` | Q2, Q4 | pushed (499b8e1c, on case-from-caseroot + merged writes-name-caseroot) | |
 | Q12 | S | `case-changes` | Q11 | pushed (ab4a5104, on configure-existing-case) | |
 | Q14 | S | `forcing-walkthrough` | Q9, Q11 | pushed (5665e3a1, on local merge 1f839164 of Q11+Q9; +382/−17). Now before Q13. Re-cut 2026-10-26: the prompts are the general forcing walkthrough (create/configure/`ask=True`), not fork's | |
@@ -114,6 +114,9 @@ for the open ones to merge, and ask before opening anything.
 - **Q12 vs Q18**: Q12's `case.py` reads `user_nl_blocks._parse/_key/_TAG`; when Q18 switches to visualCaseGen's module (same names), only that import changes.
 - **Q13 and the container CI job**: the pinned image's `run_case.sh` calls `crocodash fork`, which Q13 removes, so `run_cesm_crocontainer` fails until Q13's testing.yml points at an image built from crocontainer PR #17. The job copies the PR's CrocoDash into the image, so the image's own CrocoDash submodule doesn't matter.
 - **Branches on local merges** (Q13, Q14, Q16, Q17): when their needs merge, `git rebase --onto origin/main <merge commit> <branch>` keeps only their own commits. Q14's merge commit is 1f839164; Q13's is ff293b36 (rebase Q13 onto the rebased Q14).
+- **Q7's preview commit (d1ef365e, 2026-10-26):** Q10 is rebased onto it. The local merges
+  that contain the old Q7 head ad374ac0 (Q13's 793c3832/ff293b36, Q16's 94c65a44, Q17's
+  60bd25cc) pick it up from main when rebased `--onto origin/main <merge commit>`.
 - **Q19 and its companions:** Q19 sits on `drop-shareable` (5862c160); once Q15 merges,
   `git rebase --onto origin/main 5862c160 yaml-grid-paths`. C2 and G1 are on their
   repos' main and need no rebase unless those move.

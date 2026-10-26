@@ -58,8 +58,8 @@ one check from #313.
   `workflow_context()`, so it also works on a case read back with `from_caseroot`.
 - **Bundle copies the declared files** that exist, keeping the inputdir layout
   (`ocn/`, `ice/`, `wav/`, `mapping/`), instead of the prefix glob.
-- **Preview:** `run_workflow(case, preview=True)` and `crocodash process --preview`
-  print each requested step's declared files as `present` or `missing`, then return
+- **Preview:** `case.process_forcings(preview=True)`, `run_workflow(case, preview=True)`
+  and `crocodash process --preview` print each requested step's declared files as `present` or `missing`, then return
   without processing anything.
   - Removed: the `preview` argument of `process_initial_condition` and
     `process_obc_conditions`, `WorkflowContext.preview`, the `preview` argument of
