@@ -50,11 +50,15 @@ after everything it needs is under review, so its needs have merged when it reac
 | 4 (Nov 17) | | #331 (Q6), #332 (Q7) |
 | 5 (Nov 24) | | #333 (Q8), #336 (Q10) |
 | 6 (Dec 1) | | #335 (Q5), #334 (Q11) |
-| 7–10 (not created yet) | | 7: #337 (Q12), #341 (Q14); 8: #340 (Q13), #338 (Q16); 9: #342 (Q15), #339 (Q17, needs ESMCI #50); 10: #343 (Q19) with crocontainer #18 and CrocoGallery #63 |
+| 7 (Dec 8) | | #337 (Q12), #341 (Q14) |
+| 8 (Dec 15) | | #340 (Q13), #338 (Q16) |
+| 9 (Dec 22) | | #342 (Q15), #339 (Q17, also needs ESMCI #50) |
+| 10 (Dec 29) | | #343 (Q19), with crocontainer #18 and CrocoGallery #63 |
 
-Sprints 3–6 items are issues for unopened PRs: assigned to the user, still Backlog until
-their week. Adding iterations through the API rewrites the field, so sprints 7+ are added
-in the project's Settings, then items assigned.
+Sprints 3–10 items are issues for unopened PRs: assigned to the user, still Backlog until
+their week. Sprints 7–10 were added 2026-10-27 with `updateProjectV2Field`, passing every
+existing iteration's id back (that keeps them and their items; verified 17/17 unchanged).
+Always pass the existing ids and check the assignments before and after.
 
 **Pacing (user, 2026-10-26): don't open the next PR just because a slot is free.** Wait
 for the open ones to merge, and ask before opening anything.
