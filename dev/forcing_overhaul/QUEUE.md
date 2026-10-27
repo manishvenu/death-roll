@@ -37,6 +37,25 @@ Q19, C2 and G1 were added 2026-10-26 by `board_new_issues.py` (already run; don'
 #343 is blocked by #342, crocontainer #18 by #343, CrocoGallery #63 by #340, #341 and
 #343. The stale crocontainer #16 ← #340 link was removed when #16 closed.
 
+**Sprints (board field `Sprint`, weekly from Tue 2026-10-27, set up 2026-10-27).** Each
+week the user readies two queue PRs (assigned to them, "In progress"); the next week they
+go to review (alper's review *requested*, not assigned). An item sits at least one sprint
+after everything it needs is under review, so its needs have merged when it reaches review.
+
+| Sprint (week of) | Review (alper) | Getting ready (user) |
+|---|---|---|
+| 1 (Oct 27) | #325, ESMCI #51–#53, #279, #309, mom6_forge #155 | — |
+| 2 (Nov 3) | | #326 (Q2, after ESMCI merges), #327 (Q3) |
+| 3 (Nov 10) | | #329 (Q4), #330 (Q9) |
+| 4 (Nov 17) | | #331 (Q6), #332 (Q7) |
+| 5 (Nov 24) | | #333 (Q8), #336 (Q10) |
+| 6 (Dec 1) | | #335 (Q5), #334 (Q11) |
+| 7–10 (not created yet) | | 7: #337 (Q12), #341 (Q14); 8: #340 (Q13), #338 (Q16); 9: #342 (Q15), #339 (Q17, needs ESMCI #50); 10: #343 (Q19) with crocontainer #18 and CrocoGallery #63 |
+
+Sprints 3–6 items are issues for unopened PRs: assigned to the user, still Backlog until
+their week. Adding iterations through the API rewrites the field, so sprints 7+ are added
+in the project's Settings, then items assigned.
+
 **Pacing (user, 2026-10-26): don't open the next PR just because a slot is free.** Wait
 for the open ones to merge, and ask before opening anything.
 
