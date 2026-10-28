@@ -120,12 +120,15 @@ The evidence is in `research/`: 6 read-only reports, 3 designs, 2 critiques and
 
 **config.json reading:**
 - a missing input takes its constructor default, otherwise `ReconfigureRequired`;
-- a missing output reads as `None`, and `require_output_param` raises where a step needs it;
+- a missing output, or a missing input left `None` that isn't `optional=True` (a
+  placeholder configure_forcings() fills in), loads but raises `ReconfigureRequired`
+  when a step reads it (#325 review, 2026-10-28);
 - extra keys are ignored.
 
 config.json is written as 1.0.0, and an unversioned file counts as 1.0.0. Bump MINOR,
-with a migration, only when tolerant reading would misread a file. Three golden configs
-from real cases (an old pre-ENABLE_BUGS one, a MARBL one, a WW3 one) must keep loading.
+with a migration, only when tolerant reading would misread a file. No golden configs
+(dropped 2026-10-28, user: bad practice; their cases are refused by the state check
+anyway): small inline tests cover the reading rules.
 
 **Bundle:** `bundle.json` (2.0.0) plus `caseroot/` (state, user_nl, replay.sh, xml,
 SourceMods) and `inputdir/` (config, finished_steps, grids, declared outputs).
@@ -224,7 +227,7 @@ Q16 interior-obc-segments (#269): after Q7, Q8, Q11.   Q17 cyclic-grid (#311): a
 - **Q7 and Q8 touch the same engine signatures** (#316 vs #305). Whichever lands second
   keeps `min_chunk_days`/`lookback_days`; Q8's wiring test guards this.
 - **Tolerant reading hides real breakage.** Only constructor defaults are filled in,
-  missing outputs raise where they are used, and the golden configs must keep loading.
+  and missing outputs and placeholder inputs raise where they are used.
 - **Existing (state 1.1) cases must be recreated** to use read-back, configure, bundle or
   fork. Put this in the release notes.
 - **Long-lived pushed branches drift from main.** Rebase on every merge. (The plan was

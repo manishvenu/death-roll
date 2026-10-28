@@ -58,8 +58,9 @@
 2. **No visualCaseGen global state after creation.** Every write names its caseroot, the
    singleton guard is gone, and the MCP lock is only needed around creation.
 3. **Changing a forcing param is safe.** Tolerant reading means adding a param no longer
-   breaks every existing case; three golden configs from real cases catch the changes
-   that would; a version gate plus a migration hook exist for real renames.
+   breaks every existing case, and a value config.json lacks stops only the step that
+   needs it, asking for a reconfigure; a version gate plus a migration hook exist for
+   real renames.
 4. **Each forcing input is declared once (`ParamSpec`).** That one declaration drives
    validation, the creation printout, prompts, annotated YAML and the MCP listing. No
    hand-kept lists (`_SET_BY_CONFIGURE_FORCINGS`, recipe's tides rule, fork's hard-coded
