@@ -106,7 +106,7 @@ for the open ones to merge, and ask before opening anything.
 |---|---|---|---|---|---|
 | — | — | `job-queue-no-batch-system` | — | open | #309 |
 | — | — | `bgc-fe-interior-source` | rm6 #76 | open (approved) | #297 |
-| Q1 | C | `config-read` | main | open, changes requested 2026-10-28; review addressed in 7e5e55bb (pushed). Updated description in `prs/Q01-config-read.md` and replies in `prs/Q01-review-replies.md`, both waiting for the user's OK to post | #325 |
+| Q1 | C | `config-read` | main | open, changes requested 2026-10-28; review addressed in 7e5e55bb (pushed); description updated and one-line replies posted on all 11 comments (2026-10-28); waiting for alper's re-review | #325 |
 | Q2 | — | `writes-name-caseroot` | main, ESMCI #51–#53 | draft, waiting for ESMCI #51–#53; will be replaced by the `vcg-case-config` content (tests pass, codecov/patch red on 2026-10-24; conflicts with #325 only in one case.py import line) | #326 |
 | Q3 | T | `time-sampling` | main | draft since 2026-10-26 (opened just before the user said to hold it; mark ready when its turn comes) (38fa7f68) | #327 |
 | Q4 | C | `case-from-caseroot` | Q1 | pushed (7fc0c524, on config-read) | |
