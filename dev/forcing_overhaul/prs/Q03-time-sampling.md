@@ -71,6 +71,8 @@ Cut from #302/#303:
   static product takes none.
 - `sample_dates` strides from the `freq` anchor and falls back to the window start.
 - reference_ocean with `freq="MS"` over a year returns 12 records.
+- GLORYS from RDA with `freq="MS"` reads only the month starts in the window, and every
+  day without `freq` (file lookups mocked).
 - New: CESM-POP read with `freq="D"` keeps its dates (synthetic noleap file, no GLADE).
 
 ## Notes for reviewers

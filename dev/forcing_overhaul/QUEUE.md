@@ -67,12 +67,18 @@ for the open ones to merge, and ask before opening anything.
    "upgrade CrocoDash" message for newer files. Branches built on its old head 483ad56b
    (Q4, Q6, Q9 and above) rebase with `--onto origin/main 483ad56b`; Q4 also edits
    `case_state.check_version`, so expect a small conflict there.
-2. **#326 (Q2) waits for ESMCI #51–#53 (decided 2026-10-26).** Once they merge, bump
-   `CrocoDash/visualCaseGen` to ESMCI main on `vcg-case-config` (Q2 + Q18: +242/−1039,
-   no local xmlchange helper, CrocoDash's `user_nl_blocks.py`/`cdeps_streams.py` deleted),
-   rebase it onto main, and put it on #326's branch (force-push and description update
-   need the user's OK). Q18 then no longer exists as its own PR. Rebase Q11–Q17 onto it;
-   Q12 imports `user_nl_blocks` from visualCaseGen. #326 is a draft while it waits.
+2. **#326 (Q2) waits for ESMCI #52 and CDEPS#3 (revised 2026-10-30).** Built locally on
+   `writes-name-caseroot`, not pushed yet (pushing it fast-forwards #326; push and new
+   description `prs/Q02-writes-name-caseroot.md` need the user's OK):
+   - 3bef4b34: visualCaseGen's `xmlchange(caseroot=)` (ESMCI #51, merged 2026-10-27) and
+     `user_nl_blocks` (ESMCI #52); CrocoDash's copy and the local helper deleted.
+   - a058fca8: StreamYears (`atm.py`), `cdeps_streams.py` and `test_atm.py` deleted;
+     `Case._set_stream_years()` sets `DATM_YR_*`/`DROF_YR_*` to the run years, which
+     assumes CROCODILE-CESM/CDEPS#3 is in CESM `crocodash` (it uses ESCOMP cdeps1.0.101
+     today, where DROF_YR_* doesn't exist). ESMCI #53 is no longer needed.
+   - Bump the visualCaseGen pin to ESMCI main once #52 merges. `vcg-case-config`
+     (d8f52205, the #53 version) is superseded. Rebase Q11–Q17 onto #326 when it merges;
+     Q12 imports `user_nl_blocks` from visualCaseGen.
 3. **When a PR merges:** rebase every branch built on it (the Status column names each
    base), re-push, update this file, then open the lowest Q whose needs are all on main.
 4. **crocontainer #17 merged 2026-10-26** (e1fec8de; closed crocontainer #16). The
@@ -107,8 +113,8 @@ for the open ones to merge, and ask before opening anything.
 | — | — | `job-queue-no-batch-system` | — | open | #309 |
 | — | — | `bgc-fe-interior-source` | rm6 #76 | open (approved) | #297 |
 | Q1 | C | `config-read` | main | open, changes requested 2026-10-28; review addressed in 7e5e55bb (pushed); description updated and one-line replies posted on all 11 comments (2026-10-28); waiting for alper's re-review | #325 |
-| Q2 | — | `writes-name-caseroot` | main, ESMCI #51–#53 | draft, waiting for ESMCI #51–#53; will be replaced by the `vcg-case-config` content (tests pass, codecov/patch red on 2026-10-24; conflicts with #325 only in one case.py import line) | #326 |
-| Q3 | T | `time-sampling` | main | draft since 2026-10-26 (opened just before the user said to hold it; mark ready when its turn comes) (38fa7f68) | #327 |
+| Q2 | — | `writes-name-caseroot` | main, ESMCI #52, CDEPS#3 | draft; a058fca8 built locally on 97b16f81 (visualCaseGen user_nl_blocks/xmlchange + stream years as xml, atm.py/cdeps_streams.py deleted; +223/−1175), push waits for the user's OK | #326 |
+| Q3 | T | `time-sampling` | main | draft since 2026-10-26 (opened just before the user said to hold it; mark ready when its turn comes) (6957082c: + GLORYS RDA subsample test, 2026-10-30; Q6 still sits on 38fa7f68, rebase it when #327 merges). On its own, freq="MS" via function_overrides runs per 7-day GET chunk, and a chunk without a month start falls back to its first day (≈weekly samples); Q8's chunk sizing fixes it | #327 |
 | Q4 | C | `case-from-caseroot` | Q1 | pushed (7fc0c524, on config-read) | |
 | Q5 | T | `tseries-time-slice` | Q8 | pushed (64c04e3a, rebased onto time-windows; + IC uses the record at or before the start) | |
 | Q6 | T | `typed-freq-inputs` | Q1, Q3 | pushed (81d73d05, on time-sampling + merged config-read) | |
@@ -124,7 +130,7 @@ for the open ones to merge, and ask before opening anything.
 | Q16 | — | `interior-obc-segments` | Q7, Q8, Q11 | pushed (d18211d5, on local merge 94c65a44 of Q7+Q11+Q8; worktree `interior-obc-v2`; needs a Derecho run with an interior segment) | |
 | Q17 | — | `cyclic-grid-v2` | Q7, Q11, ESMCI #50 | pushed (e3b23b08, on local merge 60bd25cc of Q7+Q11; pins vCG to the #50 head, re-pin to ESMCI main before opening; redo #311's Derecho cyclic run; the original `cyclic-grid` branch/worktree is untouched) | |
 | Q19 | S | `yaml-grid-paths` | Q15 | pushed (c266a43b, on drop-shareable; +117/−314). The create config names the grid files; builders removed | |
-| Q18 | — | `vcg-case-config` | E1–E3 merged | folded into Q2 (#326) on 2026-10-26; pushed (d8f52205, on writes-name-caseroot; keeps the old vCG pin until E1–E3 merge) | |
+| Q18 | — | `vcg-case-config` | E1–E3 merged | superseded 2026-10-30 by #326's a058fca8 (stream years go to CDEPS#3, not ESMCI #53); branch d8f52205 kept | |
 
 **Q18 note:** before opening, bump `CrocoDash/visualCaseGen` to ESMCI main with E1–E3 merged (label `submodule-bump`) and rebase onto main. Locally it was import-checked against `visualCaseGen-worktrees/e123-integration`, a local-only merge of E1+E2+E3 (never push it). Q12's `Case.set_user_nl` must not add to `forcing/user_nl_blocks.py`, which Q18 deletes.
 
@@ -134,6 +140,7 @@ for the open ones to merge, and ask before opening anything.
 - **Q9 vs Q11** (`recipe.py`, `forcing/base.py` registry init): Q9 makes `generate_configure_forcing_args` skip derived inputs and adds the unknown-kwarg warning next to the `case.__dict__` scan; Q11 moves that function to `Case.forcing_args()` and replaces the scan with `forcing_inputs()`. Whichever merges second must make `Case.forcing_args()` skip derived inputs and keep the warning.
 - **Q16 vs Q17** (`Case.forcing_inputs()`): each adds one key (`case_supergrid_path`, `case_cyclic_x`); keep both.
 - **Q16 vs Q10**: Q16 makes the conditions `_fingerprint` ignore `case_*` inputs; Q10's conditions `step_settings` reuses `_fingerprint`, so it inherits that (wanted: settings stay portable).
+- **#325 golden configs vs #326**: `streamyr_jra.json` and `so1deg_wav.json` (restored on #325 in dcb66254) have a StreamYears entry, which #326 deletes, so `test_golden_configs_load` fails once both are on main. Whichever lands second decides: skip the retired `streamyears` entry in `iter_configurator_entries` (it never had a process step), or drop it from those two files.
 - **Q12 vs Q18**: Q12's `case.py` reads `user_nl_blocks._parse/_key/_TAG`; when Q18 switches to visualCaseGen's module (same names), only that import changes.
 - **Q13 and the container CI job**: the pinned image's `run_case.sh` calls `crocodash fork`, which Q13 removes, so `run_cesm_crocontainer` fails until Q13's testing.yml points at an image built from crocontainer PR #17. The job copies the PR's CrocoDash into the image, so the image's own CrocoDash submodule doesn't matter.
 - **Branches on local merges** (Q13, Q14, Q16, Q17): when their needs merge, `git rebase --onto origin/main <merge commit> <branch>` keeps only their own commits. Q14's merge commit is 1f839164; Q13's is ff293b36 (rebase Q13 onto the rebased Q14).
