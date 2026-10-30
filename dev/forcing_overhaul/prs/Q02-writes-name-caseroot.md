@@ -34,17 +34,24 @@ blocks working on a case read back from its caseroot.
   - CROCODILE-CESM/CDEPS#3 makes the interannual JRA, CORE2 IAF and GLOFAS streams read
     their years from `DATM_YR_*`/`DROF_YR_*`, and sets each compset's default range to the
     years its data covers.
-  - `forcing.utils.set_stream_years(case, component)` sets `ALIGN` and `START` to the
-    year before the run and `END` to the year after it. That gives the time interpolation
-    data at both ends of the run, and the range is kept inside the data's default
-    range. Each model year then reads the same data year, and CDEPS lists only those
-    years' files.
-  - The default range is read with CIME's `Component.get_default_value`, the same call
-    `create_newcase` uses for compset defaults.
-  - The new `DATM` configurator (`forcing/datm.py`, required for `DATM%JRA` and
-    `DATM%IAF`) calls it for DATM. It takes no arguments and records what it set.
-  - Runoff calls it for DROF. It takes the run dates from the case, not from its inputs,
-    so a date change leaves Runoff's config.json entry and its map alone.
+  - `forcing.datm.stream_years(caseroot, component)` works the years out from the case's
+    xml with `xmlquery`: `COMPSET`, `SRCROOT`, and the run dates from `RUN_STARTDATE`,
+    `STOP_OPTION` and `STOP_N`.
+    - `ALIGN` and `START` are the year before the run, and `END` the year after it.
+      That gives the time interpolation data at both ends of the run.
+    - The range is kept inside the data's years, which are the compset's CDEPS defaults.
+      They're read with CIME's `Component.get_default_value`, the same call
+      `create_newcase` uses for compset defaults.
+    - Each model year then reads the same data year, and CDEPS lists only those years'
+      files.
+  - `configure_forcings` now sets `CALENDAR`, `RUN_STARTDATE`, `STOP_OPTION` and `STOP_N`
+    before the configurators run, so they can read them.
+  - The new `DATM` configurator (`forcing/datm.py`) is required for the interannual JRA
+    and CORE2 IAF modes; RYF and NYF don't need it. It takes no arguments and declares
+    the three `DATM_YR_*` as `XMLConfigParam`s.
+  - Runoff xmlchanges `DROF_YR_*` itself when DROF is a JRA or GLOFAS mode. An NYF DROF
+    has none, and this keeps the run dates out of Runoff's config.json entry and the
+    map made from it.
   - Deleted: StreamYears, `cdeps_streams.py`, and the `user_nl_datm_streams`/
     `user_nl_drof_streams` blocks they wrote.
 - **Runoff takes its grid from the case.** The runoff-to-ocean map has to start from the
@@ -60,7 +67,7 @@ blocks working on a case read back from its caseroot.
   their own caseroot (`test_base.py`, with subprocess mocked).
 - A JRA 1.5 and GLOFAS run through 2023 gets one extra year either side, kept inside each
   dataset (2022-2023 for JRA, 2022-2024 for GLOFAS), and a climatology gets none
-  (`test_datm.py`, CIME's lookup mocked).
+  (`test_datm.py`, `xmlquery` and CIME's lookup mocked).
 - Existing tests pass `caseroot`/`ninst` instead of patching `cvars`. The guard test
   and the assertion on visualCaseGen's log heading are removed. The user_nl_blocks tests
   moved to visualCaseGen with the module. StreamYears' tests are deleted with it.
@@ -71,19 +78,19 @@ blocks working on a case read back from its caseroot.
   - The visualCaseGen pin is unchanged, and it has neither #51 nor #52. CI fails until the
     pin moves to ESMCI main after #52 merges.
   - CESM `crocodash` uses ESCOMP `cdeps1.0.101`, which doesn't have CDEPS#3. On it, the
-    stream years keep CDEPS's defaults:
-    - DROF logs that `DROF_YR_*` doesn't exist;
-    - DATM doesn't log anything, because the old JRA defaults span a single year.
+    configuring a JRA case stops with "This case's DATM streams don't read DATM_YR_*",
+    and DROF keeps its defaults.
   - It was checked locally against ESMCI main with #52 merged in:
     - every module imports;
     - two cases each write into their own caseroot, with a fake `./xmlchange` in each;
     - the strip-and-restore cycle `configure_forcings()` runs works;
-    - the stream years, with CIME's real lookup, against a CESM with CDEPS#3:
+    - the stream years, through a fake caseroot whose `./xmlquery` and `./xmlchange`
+      are scripts, with CIME's real lookup against a CESM with CDEPS#3:
       - JRA 1.5 in 2023 gets 2022-2023;
       - JRA 1.4 with GLOFAS in 2010 gets 2009-2011;
-      - RYF gets none.
+      - RYF doesn't need DATM.
 
-      Against CESM `crocodash`, every case keeps the defaults.
+      Against CESM `crocodash`, DATM stops with the message above.
 - **#52's new duplicate check doesn't affect CrocoDash.** That check rejects a variable
   set in two blocks.
   - CrocoDash's 66 user_nl parameters are all distinct.
@@ -92,7 +99,8 @@ blocks working on a case read back from its caseroot.
   - StreamYears added one more leading year (two before the run). It now adds one on
     each side.
   - GLOFAS runoff is now aligned with any DATM, not only with a JRA one.
-  - Run years outside the data still warn and keep the defaults, as before.
+  - Run years outside the data now raise when configuring. StreamYears warned and kept
+    the defaults, so those runs read other years' data.
   - An existing JRA case's `config.json` still has a StreamYears entry, and
     `crocodash process` stops on it ("Configurator Not Found") until
     `configure_forcings()` runs again. That rerun also removes the old

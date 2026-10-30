@@ -72,10 +72,12 @@ for the open ones to merge, and ask before opening anything.
    description `prs/Q02-writes-name-caseroot.md` need the user's OK):
    - 3bef4b34: visualCaseGen's `xmlchange(caseroot=)` (ESMCI #51, merged 2026-10-27) and
      `user_nl_blocks` (ESMCI #52); CrocoDash's copy and the local helper deleted.
-   - a058fca8: StreamYears (`atm.py`), `cdeps_streams.py` and `test_atm.py` deleted;
-     `Case._set_stream_years()` sets `DATM_YR_*`/`DROF_YR_*` to the run years, which
-     assumes CROCODILE-CESM/CDEPS#3 is in CESM `crocodash` (it uses ESCOMP cdeps1.0.101
-     today, where DROF_YR_* doesn't exist). ESMCI #53 is no longer needed.
+   - 471fb8ec..fbea1cf1 (pushed, description updated 2026-10-30): StreamYears and
+     `cdeps_streams.py` deleted; `DATM` configurator (`forcing/datm.py`, user's name) and
+     Runoff set `DATM_YR_*`/`DROF_YR_*` via `datm.stream_years(caseroot, component)`
+     (xmlquery only, no Case attributes: user dislikes reaching into the Case). Assumes
+     CROCODILE-CESM/CDEPS#3 is in CESM `crocodash` (ESCOMP cdeps1.0.101 today: JRA cases
+     stop at configure). ESMCI #53 is no longer needed.
    - Bump the visualCaseGen pin to ESMCI main once #52 merges. `vcg-case-config`
      (d8f52205, the #53 version) is superseded. Rebase Q11–Q17 onto #326 when it merges;
      Q12 imports `user_nl_blocks` from visualCaseGen.
@@ -113,7 +115,7 @@ for the open ones to merge, and ask before opening anything.
 | — | — | `job-queue-no-batch-system` | — | open | #309 |
 | — | — | `bgc-fe-interior-source` | rm6 #76 | open (approved) | #297 |
 | Q1 | C | `config-read` | main | open, changes requested 2026-10-28; review addressed in 7e5e55bb (pushed); description updated and one-line replies posted on all 11 comments (2026-10-28); waiting for alper's re-review | #325 |
-| Q2 | — | `writes-name-caseroot` | main, ESMCI #52, CDEPS#3 | draft; a058fca8 built locally on 97b16f81 (visualCaseGen user_nl_blocks/xmlchange + stream years as xml, atm.py/cdeps_streams.py deleted; +223/−1175), push waits for the user's OK | #326 |
+| Q2 | — | `writes-name-caseroot` | main, ESMCI #52, CDEPS#3 | draft; pushed fbea1cf1 2026-10-30 (visualCaseGen user_nl_blocks/xmlchange; `DATM` configurator in forcing/datm.py + Runoff set DATM_YR_*/DROF_YR_* from xmlquery, one extra year each side clamped to the CDEPS compset defaults; run dates set before the configurators; StreamYears/cdeps_streams.py deleted; +331/−1189). Waits for ESMCI #52 (pin) and CDEPS#3 in CESM crocodash | #326 |
 | Q3 | T | `time-sampling` | main | draft since 2026-10-26 (opened just before the user said to hold it; mark ready when its turn comes) (6957082c: + GLORYS RDA subsample test, 2026-10-30; Q6 still sits on 38fa7f68, rebase it when #327 merges). On its own, freq="MS" via function_overrides runs per 7-day GET chunk, and a chunk without a month start falls back to its first day (≈weekly samples); Q8's chunk sizing fixes it | #327 |
 | Q4 | C | `case-from-caseroot` | Q1 | pushed (7fc0c524, on config-read) | |
 | Q5 | T | `tseries-time-slice` | Q8 | pushed (64c04e3a, rebased onto time-windows; + IC uses the record at or before the start) | |
