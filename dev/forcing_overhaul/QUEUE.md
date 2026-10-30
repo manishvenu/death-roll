@@ -121,7 +121,7 @@ for the open ones to merge, and ask before opening anything.
 | Q5 | T | `tseries-time-slice` | Q8 | pushed (64c04e3a, rebased onto time-windows; + IC uses the record at or before the start) | |
 | Q6 | T | `typed-freq-inputs` | Q1, Q3 | pushed (81d73d05, on time-sampling + merged config-read) | |
 | Q7 | C | `declared-output-files-v2` | Q4 | pushed (e1556bdb, on case-from-caseroot; + `process_forcings(preview=)` 2026-10-26; + input files checked before processing and shown in `--preview` 2026-10-28) | |
-| Q8 | T | `time-windows` | Q1, Q6 | pushed (e8ca94cd, on typed-freq-inputs: #305's 4 commits + amendments) | |
+| Q8 | T | `time-windows` | Q1, Q6 | pushed (27d2638d, on typed-freq-inputs: #305's 4 commits + amendments; + 2026-10-30 test that the window has a record at/before the start and at/after the end. Q5 still sits on e8ca94cd, rebase it at its turn) | |
 | Q9 | — | `forcing-param-specs` | Q1 | pushed (0371a028, on config-read) | |
 | Q10 | C | `finished-steps` | Q7 | pushed (9eeb7400, rebased onto e1556bdb 2026-10-28: the input-file check skips finished steps) | |
 | Q11 | S | `configure-existing-case` | Q2, Q4 | pushed (499b8e1c, on case-from-caseroot + merged writes-name-caseroot) | |
