@@ -35,8 +35,8 @@ a record once they are sliced.
 ## Tests
 
 - A POP tseries subset keeps only the requested months. A request ending Feb 28, 2000
-  returns January's and February's records, which covers the month shift and noleap's
-  missing Feb 29.
+  returns January's and February's records. This covers the window being compared after
+  POP's means are dated from `time_bound`, and noleap's missing Feb 29.
 
 ## Notes for reviewers
 

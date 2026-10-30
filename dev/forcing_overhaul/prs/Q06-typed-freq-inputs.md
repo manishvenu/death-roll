@@ -1,13 +1,13 @@
-# Replace the freq override with typed data_freq and subsample_freq inputs
+# Replace the freq overrides with typed data_freq and subsample_freq inputs
 
 ## Why
 
-The data cadence for the initial and boundary conditions is set with
-`function_overrides={"freq": ...}`. That is one untyped key with two meanings:
-- for a "subsample" method (GLORYS from RDA, reference_ocean) it thins the data to that
-  cadence;
-- for a "declare" method (the CESM-POP and CESM-MOM readers) it says what cadence the
-  archive already holds.
+The data cadence for the initial and boundary conditions is set with two untyped
+`function_overrides` keys:
+- `freq` thins a method's data to a coarser cadence (GLORYS from RDA, reference_ocean,
+  the CESM readers);
+- `data_freq` says what cadence the data at a given path holds (the CESM-POP and
+  CESM-MOM readers).
 
 Whether it is required, refused or optional depends on the product and the method, and
 only `resolve_time_sampling` knows. `Case.configure_forcings` runs that check, but a
@@ -19,24 +19,27 @@ cadence (every one configured on main) only fails in the GET step of `process_fo
 - **Two conditions inputs** replace the `freq` override. They are passed to
   `configure_forcings` as plain kwargs, like any other configurator input, default to
   `None`, and are stored in the conditions `inputs` of config.json:
-  - `data_freq`: the cadence of the data a "declare" method reads. Required for a
-    `USER_SPECIFIED` product (CESM-MOM output).
-  - `subsample_freq`: thins a "subsample" method's data to a coarser cadence.
+  - `data_freq`: the cadence of the data a method reads from a path the user gives
+    (`@accessmethod(data_freq=True)`). Required for a `USER_SPECIFIED` product (CESM-MOM
+    output).
+  - `subsample_freq`: thins a method's data to a coarser cadence
+    (`@accessmethod(subsample=True)`).
 - **Validation** moves from `Case.configure_forcings` into
   `ConditionsConfigurator.validate_args`.
-  - Passing the input a method doesn't read raises a `ValueError`. It defines both
-    inputs and says which one the method takes.
+  - Passing an input the method doesn't take raises a `ValueError`. The message
+    defines both inputs and says which ones the method takes.
   - `resolve_time_sampling` then checks the cadence: required for `USER_SPECIFIED`, a
     valid alias, never finer than native. Its `USER_SPECIFIED` error now names
     `data_freq`, and its finer-than-native error no longer says `freq=`.
   - `validate_args` also runs when config.json is read back. So a `USER_SPECIFIED`
     product with no `data_freq` raises `ReconfigureRequired` ("rerun
     configure_forcings()") before anything runs.
-- **`freq` is no longer a function argument.** `ProductRegistry.get_function_default_args`
-  leaves it out, so `function_args` never stores it. `function_overrides={"freq": ...}`
-  raises an error that names the two new inputs.
-- **Process:** `_function_args()` passes the access method `freq=data_freq` for a
-  "declare" method and `freq=subsample_freq` for a "subsample" one, when set.
+- **`freq` and `data_freq` are no longer function arguments.**
+  `ProductRegistry.get_function_default_args` leaves them out, so `function_args` never
+  stores them. Passing either in `function_overrides` raises an error that names the two
+  new inputs.
+- **Process:** `_function_args()` passes the access method `data_freq` and
+  `freq=subsample_freq`, when set.
 - **Round trip:** `generate_configure_forcing_args` hands back `data_freq` and
   `subsample_freq` when set, so dump, duplicate, bundle and fork keep them.
 - **Docs:** `adding_data_access.md`, a short "Data Cadence" example on the
@@ -70,11 +73,12 @@ cadence (every one configured on main) only fails in the GET step of `process_fo
   `generate_configure_forcing_args`, and the "not allowed" errors. Both were checked by
   hand with a throwaway script. That script also checked that old GLORYS configs load,
   and that old CESM-MOM configs raise `ReconfigureRequired`.
-- **Registry change:** `get_function_default_args` drops `freq` for all three callers:
+- **Registry change:** `get_function_default_args` drops `freq` and `data_freq` for all
+  three callers:
   `configure_forcings`, the recipe and the process step.
-- **Unenforced assumption:** a `USER_SPECIFIED` product whose method isn't "declare"
-  could not be configured, because `data_freq` would be both required and refused. No
-  such product exists, and registration doesn't check for it.
+- **Unenforced assumption:** a `USER_SPECIFIED` product whose method doesn't take
+  `data_freq` could not be configured, because `data_freq` would be both required and
+  refused. No such product exists, and registration doesn't check for it.
 - **WW3 is untouched:** `ww3_obc_function_overrides` is still unchecked at configure
   time.
 

@@ -1,4 +1,4 @@
-# Declare each dated product's time sampling and add an optional freq
+# Declare each dated product's time sampling; add data_freq and freq
 
 ## Why
 
@@ -10,7 +10,7 @@ out empty. Nothing in the data access layer could ask for fewer records either (
 of daily GLORYS from RDA is 366 file opens; monthly it is 12), or be told the cadence of
 an archive the user points it at (CESM-MOM output, a CESM-POP `day_1` archive).
 
-This PR adds the declaration and the `freq` argument only. Sizing chunks and fetch
+This PR adds the declaration and the `data_freq` and `freq` arguments only. Sizing chunks and fetch
 windows from the declaration comes in a later PR (#305, re-cut).
 
 ## What
@@ -31,21 +31,39 @@ Replaces #302 and #303, rebased onto current main and amended.
   | cesm-ww3-jra, reference_waves | `6h`, point |
   | cice_restart, reference_ice | `None` |
 
-- **`freq`** (set with `function_overrides={"freq": ...}`) is taken only by methods
-  marked `@accessmethod(freq_handling=...)`:
-  - `"subsample"` fetches every `freq` instead of every record: GLORYS from RDA, GLOFAS
-    via cdsapi, reference_ocean.
-  - `"declare"` takes `freq` as the cadence of the source: the CESM-POP reader and both
-    CESM-MOM readers. CESM-MOM output requires it.
-  - `resolve_time_sampling` holds the rules (never finer than native, none for a static
-    product). `configure_forcings` runs it, so a bad `freq` fails at configure time.
-- **CESM-POP dates:** the month shift (`subtract_month`) now applies only to monthly
-  data. With `freq="D"`, every record used to move back a month, and days 29–31 all
-  landed on the 28th.
+- **Two arguments, set with `function_overrides`.** An access method's decorator says
+  which ones it takes:
+  - `@accessmethod(subsample=True)`: `freq` thins the data to a coarser cadence. The
+    method fetches every `freq` instead of every record, with `sample_dates`. Used by
+    GLORYS from RDA, GLOFAS via cdsapi, reference_ocean and the CESM readers.
+  - `@accessmethod(data_freq=True)`: `data_freq` is the cadence of the data at the path
+    the user gives. Used by the CESM-POP reader and both CESM-MOM readers; CESM-MOM
+    output requires it.
+  - `data_freq` only describes the files: they are read the same way whatever its
+    value. The CESM readers check it against the spacing of the records they find, and
+    raise when it doesn't match, e.g. `data_freq="D"` on a `month_1` archive.
+  - `resolve_time_sampling` holds the rules: `freq` never finer than the data, nothing
+    for a static product, and an argument only for a method that takes it.
+    `configure_forcings` runs it, so a bad value fails at configure time.
+  - A bad alias says so: "'monthly' isn't a pandas frequency alias, e.g. 'D', 'MS' or
+    '6h'."
+- **CESM-POP dates come from `time_bound`.**
+  - POP stamps each mean at the end of its averaging interval, so January's mean is
+    stamped Feb 1. A record stamped at its interval's end is now dated at the first day
+    of that interval. That's the day, because POP's first interval starts a model step
+    after midnight (00:31:40 in CESM-HR).
+  - Monthly means get the same dates as main's `subtract_month`. Daily means get their
+    own day; `subtract_month` used to move them back a month and put days 29–31 on the
+    28th.
+  - No flag depends on the cadence any more. MOM6 output, stamped mid-interval, is left
+    alone.
+- **CESM thinning:** with `freq`, the CESM readers keep, for each sampled date, the
+  record whose averaging interval holds it (the nearest record when the data has no
+  time bounds). `sample_dates` works in the data's calendar, e.g. noleap.
 - **Older config.json:** `ConditionsConfigurator` passes the access method only the
   stored `function_args` it still takes. A config written by the #303 branch carries
   `"freq": null` whatever the method, and still processes.
-- **Docs:** `adding_data_access.md` covers `time_sampling` and `freq_handling`.
+- **Docs:** `adding_data_access.md` covers `time_sampling` and the two decorator flags.
 
 Cut from #302/#303:
 - `TimeSampling.anchor`: nothing read it except `describe()` text, and CESM-POP's
@@ -55,8 +73,9 @@ Cut from #302/#303:
   static, script-only and WW3 methods. A product defined outside the repo no longer
   needs it.
 - `assert` in the declaration check: now `TypeError`, which `python -O` doesn't strip.
-- Unchecked `freq_handling`: a typo silently meant "native only". It now raises
-  `ValueError` when the method is decorated.
+- `freq_handling="subsample"|"declare"`, which made each method take one meaning of a
+  single `freq`. It is replaced by the two flags, so a CESM reader can be told its
+  cadence and thin it.
 
 ## Tests
 
@@ -67,31 +86,42 @@ Cut from #302/#303:
 - `resolve_time_sampling` returns the native sampling by default, sub-samples to a
   coarser `freq`, refuses a finer one, and refuses a non-native `freq` for a method that
   can't sub-sample.
-- With `"declare"`, `freq` is the source cadence; a `USER_SPECIFIED` product needs it; a
-  static product takes none.
+- `data_freq` names the source cadence and `freq` thins it; a method that takes no
+  `data_freq` refuses one; a `USER_SPECIFIED` product needs it; a static product takes
+  neither.
 - `sample_dates` strides from the `freq` anchor and falls back to the window start.
 - reference_ocean with `freq="MS"` over a year returns 12 records.
 - GLORYS from RDA with `freq="MS"` reads only the month starts in the window, and every
   day without `freq` (file lookups mocked).
-- New: CESM-POP read with `freq="D"` keeps its dates (synthetic noleap file, no GLADE).
+- A CESM-POP file stamped like POP's, with `time_bound` and a first interval starting
+  at 00:31:40, is dated at each month's first day. `freq="2MS"` keeps January and
+  March, and `data_freq="D"` raises (synthetic noleap file, no GLADE).
 
 ## Notes for reviewers
 
-- `freq` stays a key in `function_overrides` here. A later PR replaces it with typed
-  conditions inputs. Nothing sizes chunks from the declaration yet.
-- Not tested, to keep within the test budget: the `freq_handling` check and the
-  `function_args` filter.
+- `data_freq` and `freq` stay keys in `function_overrides` here. A later PR replaces
+  them with typed conditions inputs.
+- **Nothing sizes chunks or pads the fetch window from the declaration yet.** On its
+  own, `freq="MS"` runs per 7-day GET chunk, a chunk without a month start falls back to
+  its first day, and nothing reads the record before the run's start. The time-windows
+  PR sizes the chunks to the record spacing and pads the window by one spacing each
+  side.
+- Not tested, to keep within the test budget: the `function_args` filter.
+- Checked by hand on GLADE against CESM-HR's `month_1` SSH for 1958:
+  - the default reads Jan 1 to Dec 1;
+  - `freq="QS"` reads Jan 1, Apr 1, Jul 1 and Oct 1;
+  - `data_freq="D"` raises.
 - The filter is only on the conditions path. #303 wrote `"freq": null` only into the
   conditions `function_args`. `ww3_obc_function_overrides` and `cice_function_args` hold
   only what the user typed, and nothing checks their keys at configure time, so
   filtering them would turn a typo's `TypeError` into a silently ignored argument.
-- A `freq` for a method without `freq_handling` is now refused by `configure_forcings`'
-  existing "Invalid function_overrides key(s)" check.
+- A `freq` or `data_freq` for a method that doesn't take it is refused by
+  `configure_forcings`' existing "Invalid function_overrides key(s)" check.
 - Re-running `configure_forcings` on a case configured before this PR marks its IC/OBC
   stale once. The conditions fingerprint includes `information`, which now carries
   `time_sampling`, and `function_args`, which now carries `freq` for the methods that
   take it.
-- POP daily records keep the stamps POP wrote, at the end of each averaging day. Only
-  monthly records are shifted.
+- POP records are dated at the first day of their averaging interval at every
+  cadence, monthly or daily.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
