@@ -115,5 +115,6 @@ Replaces #305 (closed). It is rebuilt on the typed `data_freq`/`subsample_freq` 
 - **WW3 is untouched.** It still takes its own `get_step_days`/`regrid_step_days` inputs.
 
 Closes #333
+Closes #353 (its boundary half; the IC half was #358)
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)

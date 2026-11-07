@@ -65,7 +65,7 @@ This replaces closed #269. It is rebuilt on the `declared-output-files`,
   (checked by hand).
 - Left out of this PR:
   - `boundaries=None`, which auto-detects the open edges from the topography. It would
-    change behaviour for every case, so it belongs in a separate PR.
+    change behaviour for every case, so it is its own PR (Q25, #352).
   - The CI `esmf=*=nompi_*` change. It is already on main.
 
 ## Tests

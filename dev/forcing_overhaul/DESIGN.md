@@ -126,9 +126,11 @@ The evidence is in `research/`: 6 read-only reports, 3 designs, 2 critiques and
 - extra keys are ignored.
 
 config.json is written as 1.0.0, and an unversioned file counts as 1.0.0. Bump MINOR,
-with a migration, only when tolerant reading would misread a file. No golden configs
-(dropped 2026-10-28, user: bad practice; their cases are refused by the state check
-anyway): small inline tests cover the reading rules.
+with a migration, only when tolerant reading would misread a file. The three golden
+configs in `tests/forcing/golden_configs/` stay: dropped 2026-10-28, restored 2026-10-29
+at the #325 reviewer's request (r4414447265). They aren't pre-#265 cases (they have
+get_step_days and calendar; streamyr_jra lacks ENABLE_BUGS_BY_DEFAULT), and they are the
+only test of a config.json a real case wrote. Inline tests cover the reading rules.
 
 **Bundle:** `bundle.json` (2.0.0) plus `caseroot/` (state, user_nl, replay.sh, xml,
 SourceMods) and `inputdir/` (config, finished_steps, grids, declared outputs).
