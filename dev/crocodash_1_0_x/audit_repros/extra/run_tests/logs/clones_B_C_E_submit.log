@@ -1,0 +1,521 @@
+Access to and use of this UCAR computer system is limited to authorized use by
+UCAR Policies 1-7 and 3-6 and all applicable federal laws, executive orders, 
+policies and directives. UCAR computer systems are subject to monitoring at all
+times to ensure proper functioning of equipment and systems including security 
+devices, to prevent unauthorized use and violations of statutes and security 
+regulations, to deter criminal activity, and for other similar purposes. 
+
+Users should be aware that information placed in the system is subject to 
+monitoring and is not subject to any expectation of privacy. Unauthorized use 
+or abuse will be dealt with according to UCAR Policy, up to and including 
+criminal or civil penalties as warranted.
+
+By logging in, you are agreeing to these terms.
+
++ CIME=/glade/work/manishrv/installs/CESM_crocodash/cime/scripts
++ BASE=/glade/derecho/scratch/manishrv/ar
+++ cat /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap3/longdir.txt
++ LONG=/glade/derecho/scratch/manishrv/ar/i/long_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
++++ ls /glade/derecho/scratch/manishrv/ar/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+++ basename /glade/derecho/scratch/manishrv/ar/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
++ MESH=ESMF_mesh_rA_5c7e71.nc
++ cd /glade/derecho/scratch/manishrv/ar/c
++ for X in B C E
++ rm -rf audit_rB /glade/derecho/scratch/manishrv/audit_rB
++ /glade/work/manishrv/installs/CESM_crocodash/cime/scripts/create_clone --case audit_rB --clone audit_rA --keepexe
+ Successfully created new case audit_rB from clone case audit_rA 
++ cd audit_rB
++ ./xmlchange RUNDIR=/glade/derecho/scratch/manishrv/audit_rB/run
++ case $X in
++ DIR=/glade/derecho/scratch/manishrv/ar/i/long_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/ocn
++ sed -i 's|^INPUTDIR = .*|INPUTDIR = /glade/derecho/scratch/manishrv/ar/i/long_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/ocn|' user_nl_mom
++ '[' B '!=' B ']'
++ grep -n '^INPUTDIR' user_nl_mom
+45:INPUTDIR = /glade/derecho/scratch/manishrv/ar/i/long_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/ocn
++ ./xmlquery EXEROOT,RUNDIR,BUILD_COMPLETE,OCN_DOMAIN_MESH,TOTALPES,JOB_QUEUE
+
+Results in group build_def
+	EXEROOT: /glade/derecho/scratch/manishrv/audit_rA/bld
+
+Results in group build_status
+	BUILD_COMPLETE: TRUE
+
+Results in group case.cupid
+	JOB_QUEUE: develop
+
+Results in group case.run
+	JOB_QUEUE: develop
+
+Results in group case.st_archive
+	JOB_QUEUE: develop
+
+Results in group mach_pes_last
+	TOTALPES: 1
+
+Results in group run_desc
+	RUNDIR: /glade/derecho/scratch/manishrv/audit_rB/run
+
+Results in group run_domain
+	OCN_DOMAIN_MESH: /glade/derecho/scratch/manishrv/ar/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
++ ./case.submit
+  2026-11-06 22:56:21 atm 
+Create namelist for component datm
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/../components/cdeps/datm/cime_config/buildnml
+  2026-11-06 22:56:21 lnd 
+Create namelist for component slnd
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/CIME/non_py/src/components/stub_comps_nuopc/slnd/cime_config/buildnml
+  2026-11-06 22:56:21 ice 
+Create namelist for component sice
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/CIME/non_py/src/components/stub_comps_nuopc/sice/cime_config/buildnml
+  2026-11-06 22:56:21 ocn 
+Create namelist for component mom
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/../components/mom//cime_config/buildnml
+  2026-11-06 22:56:21 rof 
+Create namelist for component srof
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/CIME/non_py/src/components/stub_comps_nuopc/srof/cime_config/buildnml
+  2026-11-06 22:56:21 glc 
+Create namelist for component sglc
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/CIME/non_py/src/components/stub_comps_nuopc/sglc/cime_config/buildnml
+  2026-11-06 22:56:21 wav 
+Create namelist for component swav
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/CIME/non_py/src/components/stub_comps_nuopc/swav/cime_config/buildnml
+  2026-11-06 22:56:21 esp 
+Create namelist for component sesp
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/CIME/non_py/src/components/stub_comps_nuopc/sesp/cime_config/buildnml
+  2026-11-06 22:56:21 cpl 
+Create namelist for component drv
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/../components/cmeps/cime_config/buildnml
+Writing nuopc_runconfig for components ['CPL', 'ATM', 'OCN']
+Checking that inputdata is available as part of case submission
+Loading input file list: 'Buildconf/mom.input_data_list'
+Model mom missing file ALE_COORDINATE_CONFIG = '/glade/derecho/scratch/manishrv/ar/i/long_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/ocn/vgrid_65L_20200626.nc'
+Loading input file list: 'Buildconf/datm.input_data_list'
+Loading input file list: 'Buildconf/cpl.input_data_list'
+Checking server https://osdf-data.gdex.ucar.edu/ncar/gdex/d651077/cesmdata/inputdata/ with protocol wget
+Using protocol wget with user  and passwd 
+Loading input file list: 'Buildconf/mom.input_data_list'
+Connection established with nonzero code 8
+Model mom missing file ALE_COORDINATE_CONFIG = '/glade/derecho/scratch/manishrv/ar/i/long_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/ocn/vgrid_65L_20200626.nc'
+    Cannot download file since it lives outside of the input_data_root '/glade/campaign/cesm/cesmdata/inputdata'
+Loading input file list: 'Buildconf/datm.input_data_list'
+Loading input file list: 'Buildconf/cpl.input_data_list'
+Check case OK
+submit_jobs case.run
+ERROR: Do not know about batch job case.run
++ echo 'SUBMIT_EXIT B 1'
+SUBMIT_EXIT B 1
++ cd /glade/derecho/scratch/manishrv/ar/c
++ for X in B C E
++ rm -rf audit_rC /glade/derecho/scratch/manishrv/audit_rC
++ /glade/work/manishrv/installs/CESM_crocodash/cime/scripts/create_clone --case audit_rC --clone audit_rA --keepexe
+ Successfully created new case audit_rC from clone case audit_rA 
++ cd audit_rC
++ ./xmlchange RUNDIR=/glade/derecho/scratch/manishrv/audit_rC/run
++ case $X in
++ DIR='/glade/derecho/scratch/manishrv/ar/i/sp ace/ocn'
++ sed -i 's|^INPUTDIR = .*|INPUTDIR = /glade/derecho/scratch/manishrv/ar/i/sp ace/ocn|' user_nl_mom
++ '[' C '!=' B ']'
++ ./xmlchange 'OCN_DOMAIN_MESH=/glade/derecho/scratch/manishrv/ar/i/sp ace/ocn/ESMF_mesh_rA_5c7e71.nc'
++ ./xmlchange 'ICE_DOMAIN_MESH=/glade/derecho/scratch/manishrv/ar/i/sp ace/ocn/ESMF_mesh_rA_5c7e71.nc'
++ ./xmlchange 'WAV_DOMAIN_MESH=/glade/derecho/scratch/manishrv/ar/i/sp ace/ocn/ESMF_mesh_rA_5c7e71.nc'
++ ./xmlchange 'MASK_MESH=/glade/derecho/scratch/manishrv/ar/i/sp ace/ocn/ESMF_mesh_rA_5c7e71.nc'
++ grep -n '^INPUTDIR' user_nl_mom
+45:INPUTDIR = /glade/derecho/scratch/manishrv/ar/i/sp ace/ocn
++ ./xmlquery EXEROOT,RUNDIR,BUILD_COMPLETE,OCN_DOMAIN_MESH,TOTALPES,JOB_QUEUE
+
+Results in group build_def
+	EXEROOT: /glade/derecho/scratch/manishrv/audit_rA/bld
+
+Results in group build_status
+	BUILD_COMPLETE: TRUE
+
+Results in group case.cupid
+	JOB_QUEUE: develop
+
+Results in group case.run
+	JOB_QUEUE: develop
+
+Results in group case.st_archive
+	JOB_QUEUE: develop
+
+Results in group mach_pes_last
+	TOTALPES: 1
+
+Results in group run_desc
+	RUNDIR: /glade/derecho/scratch/manishrv/audit_rC/run
+
+Results in group run_domain
+	OCN_DOMAIN_MESH: /glade/derecho/scratch/manishrv/ar/i/sp ace/ocn/ESMF_mesh_rA_5c7e71.nc
++ ./case.submit
+  2026-11-06 22:56:28 atm 
+Create namelist for component datm
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/../components/cdeps/datm/cime_config/buildnml
+  2026-11-06 22:56:28 lnd 
+Create namelist for component slnd
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/CIME/non_py/src/components/stub_comps_nuopc/slnd/cime_config/buildnml
+  2026-11-06 22:56:28 ice 
+Create namelist for component sice
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/CIME/non_py/src/components/stub_comps_nuopc/sice/cime_config/buildnml
+  2026-11-06 22:56:28 ocn 
+Create namelist for component mom
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/../components/mom//cime_config/buildnml
+  2026-11-06 22:56:29 rof 
+Create namelist for component srof
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/CIME/non_py/src/components/stub_comps_nuopc/srof/cime_config/buildnml
+  2026-11-06 22:56:29 glc 
+Create namelist for component sglc
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/CIME/non_py/src/components/stub_comps_nuopc/sglc/cime_config/buildnml
+  2026-11-06 22:56:29 wav 
+Create namelist for component swav
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/CIME/non_py/src/components/stub_comps_nuopc/swav/cime_config/buildnml
+  2026-11-06 22:56:29 esp 
+Create namelist for component sesp
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/CIME/non_py/src/components/stub_comps_nuopc/sesp/cime_config/buildnml
+  2026-11-06 22:56:29 cpl 
+Create namelist for component drv
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/../components/cmeps/cime_config/buildnml
+Writing nuopc_runconfig for components ['CPL', 'ATM', 'OCN']
+Checking that inputdata is available as part of case submission
+Loading input file list: 'Buildconf/cpl.input_data_list'
+Loading input file list: 'Buildconf/datm.input_data_list'
+Loading input file list: 'Buildconf/mom.input_data_list'
+Model mom missing file ALE_COORDINATE_CONFIG = '/glade/derecho/scratch/manishrv/ar/i/sp ace/ocn/vgrid_65L_20200626.nc'
+Checking server https://osdf-data.gdex.ucar.edu/ncar/gdex/d651077/cesmdata/inputdata/ with protocol wget
+Using protocol wget with user  and passwd 
+Loading input file list: 'Buildconf/cpl.input_data_list'
+Connection established with nonzero code 8
+Loading input file list: 'Buildconf/datm.input_data_list'
+Loading input file list: 'Buildconf/mom.input_data_list'
+Model mom missing file ALE_COORDINATE_CONFIG = '/glade/derecho/scratch/manishrv/ar/i/sp ace/ocn/vgrid_65L_20200626.nc'
+    Cannot download file since it lives outside of the input_data_root '/glade/campaign/cesm/cesmdata/inputdata'
+Check case OK
+submit_jobs case.run
+ERROR: Do not know about batch job case.run
+SUBMIT_EXIT C 1
++ echo 'SUBMIT_EXIT C 1'
++ cd /glade/derecho/scratch/manishrv/ar/c
++ for X in B C E
++ rm -rf audit_rE /glade/derecho/scratch/manishrv/audit_rE
++ /glade/work/manishrv/installs/CESM_crocodash/cime/scripts/create_clone --case audit_rE --clone audit_rA --keepexe
+ Successfully created new case audit_rE from clone case audit_rA 
++ cd audit_rE
++ ./xmlchange RUNDIR=/glade/derecho/scratch/manishrv/audit_rE/run
++ case $X in
++ DIR=i/rA/ocn
++ sed -i 's|^INPUTDIR = .*|INPUTDIR = i/rA/ocn|' user_nl_mom
++ '[' E '!=' B ']'
++ ./xmlchange OCN_DOMAIN_MESH=i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
++ ./xmlchange ICE_DOMAIN_MESH=i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
++ ./xmlchange WAV_DOMAIN_MESH=i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
++ ./xmlchange MASK_MESH=i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
++ grep -n '^INPUTDIR' user_nl_mom
+45:INPUTDIR = i/rA/ocn
++ ./xmlquery EXEROOT,RUNDIR,BUILD_COMPLETE,OCN_DOMAIN_MESH,TOTALPES,JOB_QUEUE
+
+Results in group build_def
+	EXEROOT: /glade/derecho/scratch/manishrv/audit_rA/bld
+
+Results in group build_status
+	BUILD_COMPLETE: TRUE
+
+Results in group case.cupid
+	JOB_QUEUE: develop
+
+Results in group case.run
+	JOB_QUEUE: develop
+
+Results in group case.st_archive
+	JOB_QUEUE: develop
+
+Results in group mach_pes_last
+	TOTALPES: 1
+
+Results in group run_desc
+	RUNDIR: /glade/derecho/scratch/manishrv/audit_rE/run
+
+Results in group run_domain
+	OCN_DOMAIN_MESH: i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
++ ./case.submit
+  2026-11-06 22:56:35 atm 
+Create namelist for component datm
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/../components/cdeps/datm/cime_config/buildnml
+  2026-11-06 22:56:35 lnd 
+Create namelist for component slnd
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/CIME/non_py/src/components/stub_comps_nuopc/slnd/cime_config/buildnml
+  2026-11-06 22:56:35 ice 
+Create namelist for component sice
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/CIME/non_py/src/components/stub_comps_nuopc/sice/cime_config/buildnml
+  2026-11-06 22:56:35 ocn 
+Create namelist for component mom
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/../components/mom//cime_config/buildnml
+  2026-11-06 22:56:36 rof 
+Create namelist for component srof
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/CIME/non_py/src/components/stub_comps_nuopc/srof/cime_config/buildnml
+  2026-11-06 22:56:36 glc 
+Create namelist for component sglc
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/CIME/non_py/src/components/stub_comps_nuopc/sglc/cime_config/buildnml
+  2026-11-06 22:56:36 wav 
+Create namelist for component swav
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/CIME/non_py/src/components/stub_comps_nuopc/swav/cime_config/buildnml
+  2026-11-06 22:56:36 esp 
+Create namelist for component sesp
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/CIME/non_py/src/components/stub_comps_nuopc/sesp/cime_config/buildnml
+  2026-11-06 22:56:36 cpl 
+Create namelist for component drv
+   Calling /glade/work/manishrv/installs/CESM_crocodash/cime/../components/cmeps/cime_config/buildnml
+File not found: mesh_mask = /glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc, will attempt to download in check_input_data phase
+File not found: mesh_ice = /glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc, will attempt to download in check_input_data phase
+File not found: mesh_ocn = /glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc, will attempt to download in check_input_data phase
+File not found: mesh_wav = /glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc, will attempt to download in check_input_data phase
+Writing nuopc_runconfig for components ['CPL', 'ATM', 'OCN']
+Checking that inputdata is available as part of case submission
+Loading input file list: 'Buildconf/cpl.input_data_list'
+Model cpl missing file mesh_mask = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Model cpl missing file mesh_ice = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Model cpl missing file mesh_ocn = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Model cpl missing file mesh_wav = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Loading input file list: 'Buildconf/datm.input_data_list'
+Loading input file list: 'Buildconf/mom.input_data_list'
+Checking server https://osdf-data.gdex.ucar.edu/ncar/gdex/d651077/cesmdata/inputdata/ with protocol wget
+Using protocol wget with user  and passwd 
+Loading input file list: 'Buildconf/cpl.input_data_list'
+Connection established with nonzero code 8
+Model cpl missing file mesh_mask = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using WGET protocol.
+wget failed with output:  and errput --2026-11-06 22:56:39--  https://osdf-data.gdex.ucar.edu/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving osdf-data.gdex.ucar.edu (osdf-data.gdex.ucar.edu)... 128.117.251.130
+Connecting to osdf-data.gdex.ucar.edu (osdf-data.gdex.ucar.edu)|128.117.251.130|:443... connected.
+WARNING: cannot verify osdf-data.gdex.ucar.edu's certificate, issued by ‘CN=InCommon RSA Server CA 2,O=Internet2,C=US’:
+  Issued certificate has expired.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://osdf-director.osg-htc.org:443/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc [following]
+--2026-11-06 22:56:39--  https://osdf-director.osg-htc.org/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving osdf-director.osg-htc.org (osdf-director.osg-htc.org)... 128.105.83.136, 2607:f388:2200:c3::24
+Connecting to osdf-director.osg-htc.org (osdf-director.osg-htc.org)|128.105.83.136|:443... connected.
+HTTP request sent, awaiting response... 307 Temporary Redirect
+Location: https://dtn-pas.denv.nrp.internet2.edu:8443/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc [following]
+--2026-11-06 22:56:39--  https://dtn-pas.denv.nrp.internet2.edu:8443/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving dtn-pas.denv.nrp.internet2.edu (dtn-pas.denv.nrp.internet2.edu)... 163.253.29.21
+Connecting to dtn-pas.denv.nrp.internet2.edu (dtn-pas.denv.nrp.internet2.edu)|163.253.29.21|:8443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2026-11-06 22:56:39 ERROR 404: Not Found.
+
+Model cpl missing file mesh_ice = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using WGET protocol.
+wget failed with output:  and errput --2026-11-06 22:56:39--  https://osdf-data.gdex.ucar.edu/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving osdf-data.gdex.ucar.edu (osdf-data.gdex.ucar.edu)... 128.117.251.130
+Connecting to osdf-data.gdex.ucar.edu (osdf-data.gdex.ucar.edu)|128.117.251.130|:443... connected.
+WARNING: cannot verify osdf-data.gdex.ucar.edu's certificate, issued by ‘CN=InCommon RSA Server CA 2,O=Internet2,C=US’:
+  Issued certificate has expired.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://osdf-director.osg-htc.org:443/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc [following]
+--2026-11-06 22:56:40--  https://osdf-director.osg-htc.org/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving osdf-director.osg-htc.org (osdf-director.osg-htc.org)... 128.105.83.136, 2607:f388:2200:c3::24
+Connecting to osdf-director.osg-htc.org (osdf-director.osg-htc.org)|128.105.83.136|:443... connected.
+HTTP request sent, awaiting response... 307 Temporary Redirect
+Location: https://ncar-cache.nationalresearchplatform.org:8443/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc [following]
+--2026-11-06 22:56:40--  https://ncar-cache.nationalresearchplatform.org:8443/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving ncar-cache.nationalresearchplatform.org (ncar-cache.nationalresearchplatform.org)... 128.117.251.130
+Connecting to ncar-cache.nationalresearchplatform.org (ncar-cache.nationalresearchplatform.org)|128.117.251.130|:8443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2026-11-06 22:56:40 ERROR 404: Not Found.
+
+Model cpl missing file mesh_ocn = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using WGET protocol.
+wget failed with output:  and errput --2026-11-06 22:56:40--  https://osdf-data.gdex.ucar.edu/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving osdf-data.gdex.ucar.edu (osdf-data.gdex.ucar.edu)... 128.117.251.130
+Connecting to osdf-data.gdex.ucar.edu (osdf-data.gdex.ucar.edu)|128.117.251.130|:443... connected.
+WARNING: cannot verify osdf-data.gdex.ucar.edu's certificate, issued by ‘CN=InCommon RSA Server CA 2,O=Internet2,C=US’:
+  Issued certificate has expired.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://osdf-director.osg-htc.org:443/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc [following]
+--2026-11-06 22:56:40--  https://osdf-director.osg-htc.org/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving osdf-director.osg-htc.org (osdf-director.osg-htc.org)... 128.105.83.136, 2607:f388:2200:c3::24
+Connecting to osdf-director.osg-htc.org (osdf-director.osg-htc.org)|128.105.83.136|:443... connected.
+HTTP request sent, awaiting response... 307 Temporary Redirect
+Location: https://ncar-cache.nationalresearchplatform.org:8443/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc [following]
+--2026-11-06 22:56:40--  https://ncar-cache.nationalresearchplatform.org:8443/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving ncar-cache.nationalresearchplatform.org (ncar-cache.nationalresearchplatform.org)... 128.117.251.130
+Connecting to ncar-cache.nationalresearchplatform.org (ncar-cache.nationalresearchplatform.org)|128.117.251.130|:8443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2026-11-06 22:56:40 ERROR 404: Not Found.
+
+Model cpl missing file mesh_wav = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using WGET protocol.
+wget failed with output:  and errput --2026-11-06 22:56:40--  https://osdf-data.gdex.ucar.edu/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving osdf-data.gdex.ucar.edu (osdf-data.gdex.ucar.edu)... 128.117.251.130
+Connecting to osdf-data.gdex.ucar.edu (osdf-data.gdex.ucar.edu)|128.117.251.130|:443... connected.
+WARNING: cannot verify osdf-data.gdex.ucar.edu's certificate, issued by ‘CN=InCommon RSA Server CA 2,O=Internet2,C=US’:
+  Issued certificate has expired.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://osdf-director.osg-htc.org:443/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc [following]
+--2026-11-06 22:56:40--  https://osdf-director.osg-htc.org/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving osdf-director.osg-htc.org (osdf-director.osg-htc.org)... 128.105.83.136, 2607:f388:2200:c3::24
+Connecting to osdf-director.osg-htc.org (osdf-director.osg-htc.org)|128.105.83.136|:443... connected.
+HTTP request sent, awaiting response... 307 Temporary Redirect
+Location: https://dtn-pas.denv.nrp.internet2.edu:8443/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc [following]
+--2026-11-06 22:56:40--  https://dtn-pas.denv.nrp.internet2.edu:8443/ncar/gdex/d651077/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving dtn-pas.denv.nrp.internet2.edu (dtn-pas.denv.nrp.internet2.edu)... 163.253.29.21
+Connecting to dtn-pas.denv.nrp.internet2.edu (dtn-pas.denv.nrp.internet2.edu)|163.253.29.21|:8443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2026-11-06 22:56:40 ERROR 404: Not Found.
+
+Loading input file list: 'Buildconf/datm.input_data_list'
+Loading input file list: 'Buildconf/mom.input_data_list'
+Checking server https://ftp.cgd.ucar.edu/cesm/inputdata/ with protocol wget
+Using protocol wget with user  and passwd 
+Loading input file list: 'Buildconf/cpl.input_data_list'
+Connection established with nonzero code 0
+Model cpl missing file mesh_mask = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using WGET protocol.
+wget failed with output:  and errput --2026-11-06 22:56:42--  https://ftp.cgd.ucar.edu/cesm/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving ftp.cgd.ucar.edu (ftp.cgd.ucar.edu)... 128.117.13.41
+Connecting to ftp.cgd.ucar.edu (ftp.cgd.ucar.edu)|128.117.13.41|:443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2026-11-06 22:56:42 ERROR 404: Not Found.
+
+Model cpl missing file mesh_ice = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using WGET protocol.
+wget failed with output:  and errput --2026-11-06 22:56:42--  https://ftp.cgd.ucar.edu/cesm/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving ftp.cgd.ucar.edu (ftp.cgd.ucar.edu)... 128.117.13.41
+Connecting to ftp.cgd.ucar.edu (ftp.cgd.ucar.edu)|128.117.13.41|:443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2026-11-06 22:56:42 ERROR 404: Not Found.
+
+Model cpl missing file mesh_ocn = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using WGET protocol.
+wget failed with output:  and errput --2026-11-06 22:56:42--  https://ftp.cgd.ucar.edu/cesm/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving ftp.cgd.ucar.edu (ftp.cgd.ucar.edu)... 128.117.13.41
+Connecting to ftp.cgd.ucar.edu (ftp.cgd.ucar.edu)|128.117.13.41|:443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2026-11-06 22:56:42 ERROR 404: Not Found.
+
+Model cpl missing file mesh_wav = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using WGET protocol.
+wget failed with output:  and errput --2026-11-06 22:56:42--  https://ftp.cgd.ucar.edu/cesm/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving ftp.cgd.ucar.edu (ftp.cgd.ucar.edu)... 128.117.13.41
+Connecting to ftp.cgd.ucar.edu (ftp.cgd.ucar.edu)|128.117.13.41|:443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2026-11-06 22:56:42 ERROR 404: Not Found.
+
+Loading input file list: 'Buildconf/datm.input_data_list'
+Loading input file list: 'Buildconf/mom.input_data_list'
+Checking server https://svn-ccsm-inputdata.cgd.ucar.edu/trunk/inputdata/ with protocol wget
+Using protocol wget with user  and passwd 
+Loading input file list: 'Buildconf/cpl.input_data_list'
+Connection established with nonzero code 0
+Model cpl missing file mesh_mask = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using WGET protocol.
+wget failed with output:  and errput --2026-11-06 22:56:43--  https://svn-ccsm-inputdata.cgd.ucar.edu/trunk/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving svn-ccsm-inputdata.cgd.ucar.edu (svn-ccsm-inputdata.cgd.ucar.edu)... 128.117.13.55
+Connecting to svn-ccsm-inputdata.cgd.ucar.edu (svn-ccsm-inputdata.cgd.ucar.edu)|128.117.13.55|:443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2026-11-06 22:56:43 ERROR 404: Not Found.
+
+Model cpl missing file mesh_ice = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using WGET protocol.
+wget failed with output:  and errput --2026-11-06 22:56:44--  https://svn-ccsm-inputdata.cgd.ucar.edu/trunk/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving svn-ccsm-inputdata.cgd.ucar.edu (svn-ccsm-inputdata.cgd.ucar.edu)... 128.117.13.55
+Connecting to svn-ccsm-inputdata.cgd.ucar.edu (svn-ccsm-inputdata.cgd.ucar.edu)|128.117.13.55|:443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2026-11-06 22:56:44 ERROR 404: Not Found.
+
+Model cpl missing file mesh_ocn = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using WGET protocol.
+wget failed with output:  and errput --2026-11-06 22:56:44--  https://svn-ccsm-inputdata.cgd.ucar.edu/trunk/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving svn-ccsm-inputdata.cgd.ucar.edu (svn-ccsm-inputdata.cgd.ucar.edu)... 128.117.13.55
+Connecting to svn-ccsm-inputdata.cgd.ucar.edu (svn-ccsm-inputdata.cgd.ucar.edu)|128.117.13.55|:443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2026-11-06 22:56:44 ERROR 404: Not Found.
+
+Model cpl missing file mesh_wav = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using WGET protocol.
+wget failed with output:  and errput --2026-11-06 22:56:44--  https://svn-ccsm-inputdata.cgd.ucar.edu/trunk/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving svn-ccsm-inputdata.cgd.ucar.edu (svn-ccsm-inputdata.cgd.ucar.edu)... 128.117.13.55
+Connecting to svn-ccsm-inputdata.cgd.ucar.edu (svn-ccsm-inputdata.cgd.ucar.edu)|128.117.13.55|:443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2026-11-06 22:56:44 ERROR 404: Not Found.
+
+Loading input file list: 'Buildconf/datm.input_data_list'
+Loading input file list: 'Buildconf/mom.input_data_list'
+Checking server https://svn-ccsm-inputdata.cgd.ucar.edu/trunk/inputdata with protocol svn
+Using protocol svn with user  and passwd 
+Loading input file list: 'Buildconf/cpl.input_data_list'
+Model cpl missing file mesh_mask = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using SVN protocol.
+svn export failed with output:  and errput svn: E170000: URL 'https://svn-ccsm-inputdata.cgd.ucar.edu/trunk/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' doesn't exist
+
+Model cpl missing file mesh_ice = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using SVN protocol.
+svn export failed with output:  and errput svn: E170000: URL 'https://svn-ccsm-inputdata.cgd.ucar.edu/trunk/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' doesn't exist
+
+Model cpl missing file mesh_ocn = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using SVN protocol.
+svn export failed with output:  and errput svn: E170000: URL 'https://svn-ccsm-inputdata.cgd.ucar.edu/trunk/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' doesn't exist
+
+Model cpl missing file mesh_wav = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using SVN protocol.
+svn export failed with output:  and errput svn: E170000: URL 'https://svn-ccsm-inputdata.cgd.ucar.edu/trunk/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' doesn't exist
+
+Loading input file list: 'Buildconf/datm.input_data_list'
+Loading input file list: 'Buildconf/mom.input_data_list'
+Checking server https://redoak.cs.toronto.edu/twitcher/ows/proxy/thredds/fileServer/datasets/CESM/inputdata/ with protocol wget
+Using protocol wget with user  and passwd 
+Loading input file list: 'Buildconf/cpl.input_data_list'
+Connection established with nonzero code 8
+Model cpl missing file mesh_mask = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using WGET protocol.
+wget failed with output:  and errput --2026-11-06 22:56:47--  https://redoak.cs.toronto.edu/twitcher/ows/proxy/thredds/fileServer/datasets/CESM/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving redoak.cs.toronto.edu (redoak.cs.toronto.edu)... 128.100.20.38
+Connecting to redoak.cs.toronto.edu (redoak.cs.toronto.edu)|128.100.20.38|:443... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://redoak.cs.toronto.edu/thredds/fileServer/datasets/CESM/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc [following]
+--2026-11-06 22:56:48--  https://redoak.cs.toronto.edu/thredds/fileServer/datasets/CESM/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Reusing existing connection to redoak.cs.toronto.edu:443.
+HTTP request sent, awaiting response... 404 
+2026-11-06 22:56:48 ERROR 404: (no description).
+
+Model cpl missing file mesh_ice = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using WGET protocol.
+wget failed with output:  and errput --2026-11-06 22:56:48--  https://redoak.cs.toronto.edu/twitcher/ows/proxy/thredds/fileServer/datasets/CESM/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving redoak.cs.toronto.edu (redoak.cs.toronto.edu)... 128.100.20.38
+Connecting to redoak.cs.toronto.edu (redoak.cs.toronto.edu)|128.100.20.38|:443... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://redoak.cs.toronto.edu/thredds/fileServer/datasets/CESM/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc [following]
+--2026-11-06 22:56:48--  https://redoak.cs.toronto.edu/thredds/fileServer/datasets/CESM/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Reusing existing connection to redoak.cs.toronto.edu:443.
+HTTP request sent, awaiting response... 404 
+2026-11-06 22:56:48 ERROR 404: (no description).
+
+Model cpl missing file mesh_ocn = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using WGET protocol.
+wget failed with output:  and errput --2026-11-06 22:56:48--  https://redoak.cs.toronto.edu/twitcher/ows/proxy/thredds/fileServer/datasets/CESM/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving redoak.cs.toronto.edu (redoak.cs.toronto.edu)... 128.100.20.38
+Connecting to redoak.cs.toronto.edu (redoak.cs.toronto.edu)|128.100.20.38|:443... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://redoak.cs.toronto.edu/thredds/fileServer/datasets/CESM/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc [following]
+--2026-11-06 22:56:48--  https://redoak.cs.toronto.edu/thredds/fileServer/datasets/CESM/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Reusing existing connection to redoak.cs.toronto.edu:443.
+HTTP request sent, awaiting response... 404 
+2026-11-06 22:56:48 ERROR 404: (no description).
+
+Model cpl missing file mesh_wav = '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc'
+Trying to download file: 'i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' to path '/glade/campaign/cesm/cesmdata/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc' using WGET protocol.
+wget failed with output:  and errput --2026-11-06 22:56:48--  https://redoak.cs.toronto.edu/twitcher/ows/proxy/thredds/fileServer/datasets/CESM/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Resolving redoak.cs.toronto.edu (redoak.cs.toronto.edu)... 128.100.20.38
+Connecting to redoak.cs.toronto.edu (redoak.cs.toronto.edu)|128.100.20.38|:443... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://redoak.cs.toronto.edu/thredds/fileServer/datasets/CESM/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc [following]
+--2026-11-06 22:56:49--  https://redoak.cs.toronto.edu/thredds/fileServer/datasets/CESM/inputdata/i/rA/ocn/ESMF_mesh_rA_5c7e71.nc
+Reusing existing connection to redoak.cs.toronto.edu:443.
+HTTP request sent, awaiting response... 404 
+2026-11-06 22:56:49 ERROR 404: (no description).
+
+Loading input file list: 'Buildconf/datm.input_data_list'
+Loading input file list: 'Buildconf/mom.input_data_list'
+Checking server None with protocol None
+Client protocol None not enabled
+ERROR: Could not find all inputdata on any server
+SUBMIT_EXIT E 1
++ echo 'SUBMIT_EXIT E 1'
++ cd /glade/derecho/scratch/manishrv/ar/c

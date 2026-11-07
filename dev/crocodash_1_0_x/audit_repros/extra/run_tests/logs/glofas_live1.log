@@ -1,0 +1,28 @@
+2026-11-06 22:43:23,549 INFO [2026-10-26T00:00:00Z] **Data Stores Service protection measures** affecting data downloads and account access: [please read our Announcement](https://forum.ecmwf.int/t/data-stores-service-protection-measures-affecting-data-downloads-and-account-access-cds-ads-ewds-ecds/15481) before enquiring with ECMWF Support.
+Traceback (most recent call last):
+  File "/glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap3/glofas_live1.py", line 5, in <module>
+    p = GLOFAS.get_global_data_with_python(["2020-01-15", "2020-01-15"], output_folder=Path(sys.argv[1]), output_filename="glofas_data.nc")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/manishrv/documents/croc/regional_mom_workflows/CrocoDash-worktrees/audit/CrocoDash/raw_data_access/datasets/glofas.py", line 57, in get_global_data_with_python
+    client.retrieve(dataset, request, path)
+  File "/glade/work/manishrv/conda-envs/dev_cd/lib/python3.11/site-packages/ecmwf/datastores/legacy_client.py", line 168, in retrieve
+    submitted = self.client.submit_and_wait_on_results(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/work/manishrv/conda-envs/dev_cd/lib/python3.11/site-packages/ecmwf/datastores/client.py", line 431, in submit_and_wait_on_results
+    return self._retrieve_api.submit(collection_id, request).get_results()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/work/manishrv/conda-envs/dev_cd/lib/python3.11/site-packages/ecmwf/datastores/processing.py", line 754, in submit
+    return self.get_process(collection_id).submit(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/work/manishrv/conda-envs/dev_cd/lib/python3.11/site-packages/ecmwf/datastores/processing.py", line 317, in submit
+    job = Job.from_request(
+          ^^^^^^^^^^^^^^^^^
+  File "/glade/work/manishrv/conda-envs/dev_cd/lib/python3.11/site-packages/ecmwf/datastores/processing.py", line 177, in from_request
+    cads_raise_for_status(response)
+  File "/glade/work/manishrv/conda-envs/dev_cd/lib/python3.11/site-packages/ecmwf/datastores/processing.py", line 100, in cads_raise_for_status
+    raise requests.HTTPError(message, response=response)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://ewds.climate.copernicus.eu/api/retrieve/v1/processes/cems-glofas-historical/execution
+invalid request
+Request has not produced a valid combination of values, please check your selection.
+{'data_format': ['netcdf'], 'hday': ['15'], 'hmonth': ['01'], 'hydrological_model': ['lisflood'], 'hyear': ['2020'], 'product_type': ['consolidated'], 'system_version': ['version_4_0'], 'variable': ['river_discharge_in_the_last_24_hours']}
+EXIT 1

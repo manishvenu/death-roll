@@ -1,0 +1,32 @@
+INFO [gui] Constructing visualCaseGen GUI
+WARNING [CIME.XML.grids] Schema validity test fails for /glade/work/manishrv/installs/CESM_crocodash/ccs_config/config_grids_nuopc.xml
+[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2KRemoving previous case files: /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_nl_ubuntu-latest_reference_ocean
+Removing previous case files: /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/cases/audit_nl_ubuntu-latest_reference_ocean
+[01;96mCreating case...[0m
+
+[01;96mRunning the create_newcase tool with the following command:[0m
+
+/glade/u/home/manishrv/work/installs/CESM_crocodash/cime/scripts/create_newcase --compset 1850_DATM%NYF_SLND_SICE_MOM6%REGIONAL_SROF_SGLC_SWAV --res USER_RES --case /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/cases/audit_nl_ubuntu-latest_reference_ocean --machine ubuntu-latest --run-unsupported --handle-preexisting-dirs a --pecount S --non-local 
+
+[1;31mError creating case.[0m
+
+Schema validity test fails for /glade/work/manishrv/installs/CESM_crocodash/ccs_config/config_grids_nuopc.xml
+WARNING: User-selected machine 'ubuntu-latest' does not match probed machine 'casper'
+ERROR: Aborting by user request
+
+
+Removing files from the failed attempt: /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_nl_ubuntu-latest_reference_ocean
+Traceback (most recent call last):
+  File "/glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/nonlocal.py", line 12, in <module>
+    case = Case(cesmroot=Path("/glade/u/home/manishrv/work/installs/CESM_crocodash"),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/manishrv/documents/croc/regional_mom_workflows/CrocoDash-worktrees/audit/CrocoDash/case.py", line 220, in __init__
+    self._create_newcase()
+  File "/glade/u/home/manishrv/documents/croc/regional_mom_workflows/CrocoDash-worktrees/audit/CrocoDash/case.py", line 484, in _create_newcase
+    self.cc.create_case(do_exec=True)
+  File "/glade/u/home/manishrv/documents/croc/regional_mom_workflows/CrocoDash-worktrees/audit/CrocoDash/visualCaseGen/visualCaseGen/custom_widget_types/case_creator.py", line 151, in create_case
+    self._run_create_newcase(caseroot, compset, resolution, do_exec)
+  File "/glade/u/home/manishrv/documents/croc/regional_mom_workflows/CrocoDash-worktrees/audit/CrocoDash/visualCaseGen/visualCaseGen/custom_widget_types/case_creator.py", line 564, in _run_create_newcase
+    raise RuntimeError(
+RuntimeError: Error creating case: a previous case with the same name left its build/run directories behind (see the message above). Remove them, or choose a different case name.
+EXIT 1

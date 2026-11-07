@@ -1,0 +1,12 @@
+tos: records 24, finite everywhere: True, range 18.19..19.88
+   SW corner: final 19.29 vs inward 18.99; max |diff| over run 0.297
+   SE corner: final 19.42 vs inward 19.06; max |diff| over run 0.366
+   NW corner: final 18.34 vs inward 18.36; max |diff| over run 0.113
+   NE corner: final 18.29 vs inward 18.35; max |diff| over run 0.092
+   max |neighbour diff| among interior cells: 0.0379
+zos: records 24, finite everywhere: True, range -0.1372..0.1218
+   SW corner: final 0.04641 vs inward 0.04199; max |diff| over run 0.0156
+   SE corner: final 0.1176 vs inward 0.08521; max |diff| over run 0.0352
+   NW corner: final -0.1325 vs inward -0.09124; max |diff| over run 0.0453
+   NE corner: final -0.05174 vs inward -0.04679; max |diff| over run 0.0175
+   max |neighbour diff| among interior cells: 0.0138

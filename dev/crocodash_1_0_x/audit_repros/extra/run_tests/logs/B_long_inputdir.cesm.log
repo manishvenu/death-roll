@@ -1,0 +1,56 @@
+dec2436.hsn.de.hpc.ucar.edu 0: Binding for partial node usage using 1 of the 128 available CPUs. Affinity may not be optimal.
+dec2436.hsn.de.hpc.ucar.edu 0:  (t_initf) Read in prof_inparm namelist from: drv_in
+dec2436.hsn.de.hpc.ucar.edu 0:  (t_initf) Using profile_disable=          F
+dec2436.hsn.de.hpc.ucar.edu 0:  (t_initf)       profile_timer=                      4
+dec2436.hsn.de.hpc.ucar.edu 0:  (t_initf)       profile_depth_limit=                4
+dec2436.hsn.de.hpc.ucar.edu 0:  (t_initf)       profile_detail_limit=               2
+dec2436.hsn.de.hpc.ucar.edu 0:  (t_initf)       profile_barrier=          F
+dec2436.hsn.de.hpc.ucar.edu 0:  (t_initf)       profile_outpe_num=                  1
+dec2436.hsn.de.hpc.ucar.edu 0:  (t_initf)       profile_outpe_stride=               0
+dec2436.hsn.de.hpc.ucar.edu 0:  (t_initf)       profile_single_file=      F
+dec2436.hsn.de.hpc.ucar.edu 0:  (t_initf)       profile_global_stats=     T
+dec2436.hsn.de.hpc.ucar.edu 0:  (t_initf)       profile_ovhd_measurement= F
+dec2436.hsn.de.hpc.ucar.edu 0:  (t_initf)       profile_add_detail=       F
+dec2436.hsn.de.hpc.ucar.edu 0:  (t_initf)       profile_papi_enable=      F
+dec2436.hsn.de.hpc.ucar.edu 0: Image              PC                Routine            Line        Source             
+dec2436.hsn.de.hpc.ucar.edu 0: cesm.exe           00000000018AFB42  mpp_error_basic            72  mpp_util_mpi.inc
+dec2436.hsn.de.hpc.ucar.edu 0: cesm.exe           00000000009AFF66  mom_error                 182  MOM_error_handler.F90
+dec2436.hsn.de.hpc.ucar.edu 0: cesm.exe           0000000000D09E30  allocate_segment_        1165  MOM_open_boundary.F90
+dec2436.hsn.de.hpc.ucar.edu 0: cesm.exe           0000000000D0D6DB  initialize_segmen        1376  MOM_open_boundary.F90
+dec2436.hsn.de.hpc.ucar.edu 0: cesm.exe           0000000000651D24  initialize_mom           3232  MOM.F90
+dec2436.hsn.de.hpc.ucar.edu 0: cesm.exe           00000000005C2221  ocean_model_init          301  mom_ocean_model_nuopc.F90
+dec2436.hsn.de.hpc.ucar.edu 0: cesm.exe           000000000057C915  initializeadverti         757  mom_cap.F90
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3E358FBD  _ZN5ESMCI6FTable1     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3E358957  ESMCI_FTableCallE     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3E6D6866  _ZN5ESMCI3VMK5ent     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3E6BEECF  _ZN5ESMCI2VM5ente     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3E35971A  c_esmc_ftablecall     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3E8DB64C  esmf_compmod_mp_e     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3EB60CD8  esmf_gridcompmod_     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3EF1F037  nuopc_driver_mp_l     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3EF10A38  nuopc_driver_mp_i     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3E358FBD  _ZN5ESMCI6FTable1     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3E358957  ESMCI_FTableCallE     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3E6D6866  _ZN5ESMCI3VMK5ent     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3E6BEECF  _ZN5ESMCI2VM5ente     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3E35971A  c_esmc_ftablecall     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3E8DB64C  esmf_compmod_mp_e     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3EB60CD8  esmf_gridcompmod_     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3EF1F037  nuopc_driver_mp_l     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3EF10934  nuopc_driver_mp_i     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3EF07852  nuopc_driver_mp_i     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3E358FBD  _ZN5ESMCI6FTable1     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3E358957  ESMCI_FTableCallE     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3E6D6866  _ZN5ESMCI3VMK5ent     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3E6BEECF  _ZN5ESMCI2VM5ente     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3E35971A  c_esmc_ftablecall     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3E8DB64C  esmf_compmod_mp_e     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libesmf.so         0000151A3EB60CD8  esmf_gridcompmod_     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: cesm.exe           000000000042EEC8  esmapp                    128  esmApp.F90
+dec2436.hsn.de.hpc.ucar.edu 0: cesm.exe           000000000041FDBD  Unknown               Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libc.so.6          0000151A341C7E6C  Unknown               Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: libc.so.6          0000151A341C7F35  __libc_start_main     Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: cesm.exe           000000000041FCC1  Unknown               Unknown  Unknown
+dec2436.hsn.de.hpc.ucar.edu 0: MPICH ERROR [Rank 0] [job id a4be73fb-0ac4-4685-9dc8-66c601ec93fe] [Fri Nov  6 22:57:54 2026] [dec2436] - Abort(1) (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 0
+dec2436.hsn.de.hpc.ucar.edu 0: 
+dec2436.hsn.de.hpc.ucar.edu: rank 0 exited with code 1

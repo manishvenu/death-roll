@@ -1,0 +1,19 @@
+REQUEST {'class': 'ea', 'expver': '1', 'stream': 'wave', 'type': 'an', 'levtype': 'sfc', 'param': '251.140', 'date': '2019-06-05/to/2019-06-05', 'time': '00/to/23/by/1', 'direction': '1/to/24', 'frequency': '1/to/30', 'area': '45.0/-61.0/39.0/-55.0', 'grid': '0.5/0.5', 'data_format': 'grib'}
+2026-11-06 22:42:33,550 INFO [2026-10-06T00:00:00Z] **Data Stores Service protection measures** affecting data downloads and account access: [please read our Announcement](https://forum.ecmwf.int/t/data-stores-service-protection-measures-affecting-data-downloads-and-account-access-cds-ads-ewds-ecds/15481) before enquiring with ECMWF Support.
+2026-11-06 22:42:33,979 INFO Request ID is 16e23b89-5ebd-4ed3-a244-ac269bdcc452
+2026-11-06 22:42:34,144 INFO status has been updated to accepted
+2026-11-06 22:43:07,435 INFO status has been updated to running
+2026-11-06 22:48:54,865 INFO status has been updated to successful
+eda27333ebbe94909e639373c11cda33.grib:   0%|          | 0.00/12.0M [00:00<?, ?B/s]eda27333ebbe94909e639373c11cda33.grib:   8%|▊         | 1.00M/12.0M [00:01<00:15, 766kB/s]eda27333ebbe94909e639373c11cda33.grib:  17%|█▋        | 2.00M/12.0M [00:01<00:06, 1.63MB/s]eda27333ebbe94909e639373c11cda33.grib:  33%|███▎      | 4.00M/12.0M [00:01<00:02, 3.71MB/s]eda27333ebbe94909e639373c11cda33.grib:  58%|█████▊    | 7.00M/12.0M [00:01<00:00, 7.19MB/s]eda27333ebbe94909e639373c11cda33.grib:  83%|████████▎ | 10.0M/12.0M [00:01<00:00, 10.9MB/s]eda27333ebbe94909e639373c11cda33.grib: 100%|█████████▉| 12.0M/12.0M [00:01<00:00, 12.7MB/s]                                                                                           DONE /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap3/era5/era5_spectra.nc 389 s
+<xarray.Dataset> Size: 12MB
+Dimensions:    (time: 24, latitude: 13, longitude: 13, frequency: 30,
+                direction: 24)
+Coordinates:
+  * time       (time) datetime64[ns] 192B 2019-06-05 ... 2019-06-05T23:00:00
+  * latitude   (latitude) float64 104B 45.0 44.5 44.0 43.5 ... 40.0 39.5 39.0
+  * longitude  (longitude) float64 104B -61.0 -60.5 -60.0 ... -56.0 -55.5 -55.0
+  * frequency  (frequency) float64 240B 0.03452 0.03797 ... 0.4979 0.5476
+  * direction  (direction) float64 192B 7.5 22.5 37.5 52.5 ... 322.5 337.5 352.5
+Data variables:
+    efth       (time, latitude, longitude, frequency, direction) float32 12MB ...
+EXIT 0

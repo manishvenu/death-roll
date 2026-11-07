@@ -1,0 +1,408 @@
+INFO [gui] Constructing visualCaseGen GUI
+WARNING [CIME.XML.grids] Schema validity test fails for /glade/work/manishrv/installs/CESM_crocodash/ccs_config/config_grids_nuopc.xml
+grid 24 24 lat -76.71608332758271 -62.22535143579946
+Slicing source bathymetry to domain: (-65.55604521958347, -24.443954780416536) x (-77.03740063459344, -61.91820806491392) with buffer 0.5
+==========================================================
+  Resolution Diagnostics
+==========================================================
+
+  Source dataset (GEBCO_2026_coarse_x8.nc):
+    dlon = 120.0 arcsec  (0.033333°)
+    dlat = 120.0 arcsec  (0.033333°)
+    dx   ~ 801 m)
+    dy   ~ 3706 m
+
+  Model grid (T-cell spacing):
+    median = 49.52 km
+    min    = 48.31 km
+    max    = 50.51 km
+
+  Resolution ratio (model dx / dataset dx):
+    median = 61.8x
+    max    = 63.0x
+
+  Cressman / stats-mask threshold: 12x
+  → RECOMMENDED: high_res_regrid()  (Cressman + stats mask)
+    Each model cell spans ~62 dataset pixels per side.
+    Ocean-aware Cressman interpolation will meaningfully reduce
+    land contamination of coastal depth estimates.
+==========================================================
+Masking depth threshold (mask_hmin) not provided in kwargs, defaulting to 0 m
+Sub-sampling factors (nx_sub, ny_sub) not provided in kwargs, computing based on source dataset and model grid resolution
+Resolution diagnostics recommend using stats-based masking, which we will set because no mask option was specified
+--- xESMF Regridding Info ---
+  Source:        lat=483, lon=1262  (609,546 points)  [1.23 MB]
+  Destination:   ny=24, nx=26712  (641,088 points)  [10.26 MB]
+  Method:        nearest_s2d
+  Weights:       generating new weights
+  Periodic:      False
+  Locstream out: False
+-----------------------------
+The manual mask is not initialized. Initializing it now from the depth raw mask
+Resolution diagnostics recommend using stats-based method, which we will set for depth as cressman method because no depth option was specified
+Computing Cressman weights...
+--- xESMF Regridding Info ---
+  Source:        lat=483, lon=1262  (609,546 points)  [1.23 MB]
+  Destination:   ny=24, nx=24  (576 points)  [0.02 MB]
+  Method:        bilinear
+  Weights:       reusing in-memory weights
+  Periodic:      False
+  Locstream out: False
+-----------------------------
+Warning! This was an opionated workflow function that ran multiple steps in sequence. Please edit the mask manually if need be (Some depth methods, like cressman, are mask-aware and may need to be rerun)! 
+topo ocean frac 0.96875 max 4790.0 nan 0
+[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[2K[01;96mCreating case...[0m
+
+[01;96mRunning the create_newcase tool with the following command:[0m
+
+/glade/u/home/manishrv/work/installs/CESM_crocodash/cime/scripts/create_newcase --compset GR_JRA --res USER_RES --case /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/cases/audit_pol_wed --machine derecho --run-unsupported --handle-preexisting-dirs a --pecount S --project ncgd0011 --non-local 
+
+[01;96mThe create_newcase command was successful.[0m
+
+• Updating case xml variables to include newly generated ocean grid "polwed" with the following properties:
+ nx: 24, ny: 24. ocean mesh: /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/ocn/ESMF_mesh_polwed_4b8a77.nc.[0m
+
+./xmlchange OCN_GRID=polwed --non-local
+./xmlchange OCN_NX=24 --non-local
+./xmlchange OCN_NY=24 --non-local
+./xmlchange OCN_DOMAIN_MESH=/glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/ocn/ESMF_mesh_polwed_4b8a77.nc --non-local
+./xmlchange ICE_GRID=polwed --non-local
+./xmlchange ICE_NX=24 --non-local
+./xmlchange ICE_NY=24 --non-local
+./xmlchange ICE_DOMAIN_MESH=/glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/ocn/ESMF_mesh_polwed_4b8a77.nc --non-local
+./xmlchange WAV_GRID=polwed --non-local
+./xmlchange WAV_NX=24 --non-local
+./xmlchange WAV_NY=24 --non-local
+./xmlchange WAV_DOMAIN_MESH=/glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/ocn/ESMF_mesh_polwed_4b8a77.nc --non-local
+./xmlchange MASK_MESH=/glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/ocn/ESMF_mesh_polwed_4b8a77.nc --non-local
+./xmlchange ATM_GRID=TL319 --non-local
+./xmlchange LND_GRID=TL319 --non-local
+./xmlchange ATM_DOMAIN_MESH=/glade/campaign/cesm/cesmdata/inputdata/share/meshes/TL319_151007_ESMFmesh.nc --non-local
+./xmlchange LND_DOMAIN_MESH=/glade/campaign/cesm/cesmdata/inputdata/share/meshes/TL319_151007_ESMFmesh.nc --non-local
+./xmlchange ROF_GRID=GLOFAS --non-local
+./xmlchange ROF_DOMAIN_MESH=/glade/campaign/cesm/cesmdata/inputdata/lnd/dlnd7/GLOFAS/GLOFAS.v4.dis24.ESMFmesh_20260501.nc --non-local
+[01;96mNavigating to the case directory:[0m
+
+cd /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/cases/audit_pol_wed
+
+[01;96mRunning the case.setup script with the following command:[0m
+
+./case.setup --non-local
+
+[01;96mAdding parameter changes to user_nl_mom:[0m
+
+  ! Custom Horizonal Grid, Topography, and Vertical Grid
+  INPUTDIR = /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/ocn
+  TRIPOLAR_N = False
+  REENTRANT_X = False
+  REENTRANT_Y = False
+  NIGLOBAL = 24
+  NJGLOBAL = 24
+  GRID_CONFIG = mosaic
+  GRID_FILE = ocean_hgrid_polwed_4b8a77.nc
+  TOPO_CONFIG = file
+  TOPO_FILE = ocean_topog_polwed_4b8a77.nc
+  MAXIMUM_DEPTH = 4790.0
+  MINIMUM_DEPTH = 9.5
+  NK = 30
+  COORD_CONFIG = none
+  ALE_COORDINATE_CONFIG = FILE:ocean_vgrid_polwed_4b8a77.nc
+  REGRIDDING_COORDINATE_MODE = Z*
+
+  ! Timesteps (based on grid resolution)
+  DT = 1800.0
+  DT_THERM = 1800.0
+
+[01;96mAdding parameter changes to user_nl_cice:[0m
+
+  grid_format = "nc"
+  grid_file = "/glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/ice/cice_grid_polwed_4b8a77.nc"
+  kmt_file = "/glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/ice/cice_grid_polwed_4b8a77.nc"
+
+[1;32mCase created successfully at /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/cases/audit_pol_wed.[0m
+
+[01;96mTo further customize, build, and run the case, navigate to the case directory in your terminal. To create another case, restart the notebook.[0m
+
+[01;96mAdding parameter changes to user_nl_cice:[0m
+
+  ! CICE dynamics substeps: ice at 1.0 m/s crosses at most 0.25 of the smallest cell (48295 m) per substep of the 3600 s ice time step
+  ndtd = 1
+
+./xmlchange MOM6_MEMORY_MODE=dynamic_symmetric --non-local
+The following additional configuration options are required to run and must be provided with any listed arguments in configure_forcings:
+  - StreamYears: no arguments
+  - CICE: no arguments
+  - conditions: boundaries, product_name, function_name, compset
+  - Runoff: no arguments
+INFO [CrocoDash.forcing.base] [REQUIRED] Activating StreamYears
+INFO [CrocoDash.forcing.base] [SKIP] BGC incompatible with compset
+INFO [CrocoDash.forcing.base] [SKIP] BGCIC incompatible with compset
+INFO [CrocoDash.forcing.base] [SKIP] BGCIronForcing incompatible with compset
+INFO [CrocoDash.forcing.base] [SKIP] BGCRiverNutrients incompatible with compset
+INFO [CrocoDash.forcing.base] [SKIP] Chl missing args: ['chl_processed_filepath']
+INFO [CrocoDash.forcing.base] [REQUIRED] Activating CICE
+INFO [CrocoDash.forcing.base] [REQUIRED] Activating conditions
+INFO [CrocoDash.forcing.base] [REQUIRED] Activating Runoff
+INFO [CrocoDash.forcing.base] [SKIP] tides missing args: ['tpxo_elevation_filepath', 'tpxo_velocity_filepath', 'tidal_constituents']
+INFO [CrocoDash.forcing.base] [SKIP] WW3 incompatible with compset
+INFO [CrocoDash.forcing.base] Configuring StreamYears
+[01;96mAdding parameter changes to user_nl_datm_streams:[0m
+
+  ! Align CORE_IAF_JRA_1p5_2023 streams with the run dates (CrocoDash: CDEPS defaults to year_align=1)
+  CORE_IAF_JRA_1p5_2023.GCGCS.PREC:year_first = 2018
+  CORE_IAF_JRA_1p5_2023.GCGCS.PREC:year_last = 2021
+  CORE_IAF_JRA_1p5_2023.GCGCS.PREC:year_align = 2018
+  CORE_IAF_JRA_1p5_2023.GCGCS.PREC:datafiles = /glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.prec.TL319.2018.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.prec.TL319.2019.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.prec.TL319.2020.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.prec.TL319.2021.220505.nc
+  CORE_IAF_JRA_1p5_2023.GISS.LWDN:year_first = 2018
+  CORE_IAF_JRA_1p5_2023.GISS.LWDN:year_last = 2021
+  CORE_IAF_JRA_1p5_2023.GISS.LWDN:year_align = 2018
+  CORE_IAF_JRA_1p5_2023.GISS.LWDN:datafiles = /glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.lwdn.TL319.2018.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.lwdn.TL319.2019.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.lwdn.TL319.2020.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.lwdn.TL319.2021.220505.nc
+  CORE_IAF_JRA_1p5_2023.GISS.SWDN:year_first = 2018
+  CORE_IAF_JRA_1p5_2023.GISS.SWDN:year_last = 2021
+  CORE_IAF_JRA_1p5_2023.GISS.SWDN:year_align = 2018
+  CORE_IAF_JRA_1p5_2023.GISS.SWDN:datafiles = /glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.swdn.TL319.2018.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.swdn.TL319.2019.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.swdn.TL319.2020.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.swdn.TL319.2021.220505.nc
+  CORE_IAF_JRA_1p5_2023.NCEP.Q_10:year_first = 2018
+  CORE_IAF_JRA_1p5_2023.NCEP.Q_10:year_last = 2021
+  CORE_IAF_JRA_1p5_2023.NCEP.Q_10:year_align = 2018
+  CORE_IAF_JRA_1p5_2023.NCEP.Q_10:datafiles = /glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.q_10.TL319.2018.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.q_10.TL319.2019.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.q_10.TL319.2020.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.q_10.TL319.2021.220505.nc
+  CORE_IAF_JRA_1p5_2023.NCEP.SLP_:year_first = 2018
+  CORE_IAF_JRA_1p5_2023.NCEP.SLP_:year_last = 2021
+  CORE_IAF_JRA_1p5_2023.NCEP.SLP_:year_align = 2018
+  CORE_IAF_JRA_1p5_2023.NCEP.SLP_:datafiles = /glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.slp.TL319.2018.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.slp.TL319.2019.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.slp.TL319.2020.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.slp.TL319.2021.220505.nc
+  CORE_IAF_JRA_1p5_2023.NCEP.T_10:year_first = 2018
+  CORE_IAF_JRA_1p5_2023.NCEP.T_10:year_last = 2021
+  CORE_IAF_JRA_1p5_2023.NCEP.T_10:year_align = 2018
+  CORE_IAF_JRA_1p5_2023.NCEP.T_10:datafiles = /glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.t_10.TL319.2018.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.t_10.TL319.2019.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.t_10.TL319.2020.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.t_10.TL319.2021.220505.nc
+  CORE_IAF_JRA_1p5_2023.NCEP.U_10:year_first = 2018
+  CORE_IAF_JRA_1p5_2023.NCEP.U_10:year_last = 2021
+  CORE_IAF_JRA_1p5_2023.NCEP.U_10:year_align = 2018
+  CORE_IAF_JRA_1p5_2023.NCEP.U_10:datafiles = /glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.u_10.TL319.2018.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.u_10.TL319.2019.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.u_10.TL319.2020.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.u_10.TL319.2021.220505.nc
+  CORE_IAF_JRA_1p5_2023.NCEP.V_10:year_first = 2018
+  CORE_IAF_JRA_1p5_2023.NCEP.V_10:year_last = 2021
+  CORE_IAF_JRA_1p5_2023.NCEP.V_10:year_align = 2018
+  CORE_IAF_JRA_1p5_2023.NCEP.V_10:datafiles = /glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.v_10.TL319.2018.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.v_10.TL319.2019.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.v_10.TL319.2020.210504.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/jra55/v1.5_noleap/JRA.v1.5.v_10.TL319.2021.220505.nc
+
+[01;96mAdding parameter changes to user_nl_drof_streams:[0m
+
+  ! Align GLOFAS streams with the run dates (CrocoDash: CDEPS defaults to year_align=1)
+  rof.glofas:year_first = 2018
+  rof.glofas:year_last = 2021
+  rof.glofas:year_align = 2018
+  rof.glofas:datafiles = /glade/campaign/cesm/cesmdata/inputdata/ocn/glofas/v4/GLOFAS.v4.dis24.2018.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/glofas/v4/GLOFAS.v4.dis24.2019.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/glofas/v4/GLOFAS.v4.dis24.2020.nc,/glade/campaign/cesm/cesmdata/inputdata/ocn/glofas/v4/GLOFAS.v4.dis24.2021.nc
+
+INFO [CrocoDash.forcing.base] Configuring CICE
+[01;96mAdding parameter changes to user_nl_cice:[0m
+
+  ice_ic = '/glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/ice/cice_forcing.nc'
+  ns_boundary_type = 'zero_gradient'
+  ew_boundary_type = 'zero_gradient'
+  advection = 'upwind'
+  restart_ext = .true.
+  restart_aero = .true.
+  restart_age = .true.
+  restart_fy = .true.
+  restart_fsd = .true.
+  restart_lvl = .true.
+  restart_pond_sealvl = .true.
+  restart_snow = .true.
+  histfreq = 'm','d','x','x','x'
+  f_afsd = 'mdxxx'
+  f_afsdn = 'mdxxx'
+  f_dafsd_latg = 'mdxxx'
+  f_dafsd_latm = 'mdxxx'
+  f_dafsd_newi = 'mdxxx'
+  f_dafsd_wave = 'mdxxx'
+  f_dafsd_weld = 'mdxxx'
+  f_diam_ww = 'mdxxx'
+  f_fsdperim = 'mdxxx'
+  f_fsdrad = 'mdxxx'
+  restore_ice = .true.
+  restore_timescale = 90
+  restore_mask = 'constant'
+  restore_width = 1
+  restore_data = 'initial'
+  restore_flds = 'state'
+
+INFO [CrocoDash.forcing.base] Configuring conditions
+[01;96mAdding parameter changes to user_nl_mom:[0m
+
+  ! Initial conditions
+  INIT_LAYERS_FROM_Z_FILE = True
+  Z_INIT_ALE_REMAPPING = True
+  TEMP_SALT_INIT_VERTICAL_REMAP_ONLY = True
+  DEPRESS_INITIAL_SURFACE = True
+  VELOCITY_CONFIG = file
+  TEMP_SALT_Z_INIT_FILE = init_tracers_filled.nc
+  SURFACE_HEIGHT_IC_FILE = init_eta_filled.nc
+  VELOCITY_FILE = init_vel_filled.nc
+  Z_INIT_FILE_PTEMP_VAR = temp
+  Z_INIT_FILE_SALT_VAR = salt
+  SURFACE_HEIGHT_IC_VAR = eta_t
+  U_IC_VAR = u
+  V_IC_VAR = v
+
+  ! Open boundary conditions
+  OBC_NUMBER_OF_SEGMENTS = 4
+  OBC_FREESLIP_VORTICITY = False
+  OBC_FREESLIP_STRAIN = False
+  OBC_COMPUTED_VORTICITY = True
+  OBC_COMPUTED_STRAIN = True
+  OBC_ZERO_BIHARMONIC = True
+  OBC_TRACER_RESERVOIR_LENGTH_SCALE_OUT = 3.0E+04
+  OBC_TRACER_RESERVOIR_LENGTH_SCALE_IN = 3000.0
+  BRUSHCUTTER_MODE = True
+  ENABLE_BUGS_BY_DEFAULT = False
+  OBC_SEGMENT_001 = "J=0,I=0:N,FLATHER,ORLANSKI,NUDGED,ORLANSKI_TAN,NUDGED_TAN"
+  OBC_SEGMENT_001_VELOCITY_NUDGING_TIMESCALES = 0.3, 360.0
+  OBC_SEGMENT_001_DATA = "U=file:forcing_obc_segment_001.nc(u),V=file:forcing_obc_segment_001.nc(v),SSH=file:forcing_obc_segment_001.nc(eta),TEMP=file:forcing_obc_segment_001.nc(temp),SALT=file:forcing_obc_segment_001.nc(salt)"
+  OBC_SEGMENT_002 = "J=N,I=N:0,FLATHER,ORLANSKI,NUDGED,ORLANSKI_TAN,NUDGED_TAN"
+  OBC_SEGMENT_002_VELOCITY_NUDGING_TIMESCALES = 0.3, 360.0
+  OBC_SEGMENT_002_DATA = "U=file:forcing_obc_segment_002.nc(u),V=file:forcing_obc_segment_002.nc(v),SSH=file:forcing_obc_segment_002.nc(eta),TEMP=file:forcing_obc_segment_002.nc(temp),SALT=file:forcing_obc_segment_002.nc(salt)"
+  OBC_SEGMENT_003 = "I=0,J=N:0,FLATHER,ORLANSKI,NUDGED,ORLANSKI_TAN,NUDGED_TAN"
+  OBC_SEGMENT_003_VELOCITY_NUDGING_TIMESCALES = 0.3, 360.0
+  OBC_SEGMENT_003_DATA = "U=file:forcing_obc_segment_003.nc(u),V=file:forcing_obc_segment_003.nc(v),SSH=file:forcing_obc_segment_003.nc(eta),TEMP=file:forcing_obc_segment_003.nc(temp),SALT=file:forcing_obc_segment_003.nc(salt)"
+  OBC_SEGMENT_004 = "I=N,J=0:N,FLATHER,ORLANSKI,NUDGED,ORLANSKI_TAN,NUDGED_TAN"
+  OBC_SEGMENT_004_VELOCITY_NUDGING_TIMESCALES = 0.3, 360.0
+  OBC_SEGMENT_004_DATA = "U=file:forcing_obc_segment_004.nc(u),V=file:forcing_obc_segment_004.nc(v),SSH=file:forcing_obc_segment_004.nc(eta),TEMP=file:forcing_obc_segment_004.nc(temp),SALT=file:forcing_obc_segment_004.nc(salt)"
+
+INFO [CrocoDash.forcing.base] Configuring Runoff
+./xmlchange ROF2OCN_LIQ_RMAPNAME=/glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/mapping/GLOFAS_to_polwed_map_r100_f200_nnsm.nc --non-local
+./xmlchange ROF2OCN_ICE_RMAPNAME=/glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/mapping/GLOFAS_to_polwed_map_r100_f200_nnsm.nc --non-local
+./xmlchange CALENDAR=GREGORIAN --non-local
+./xmlchange RUN_STARTDATE=2020-01-01 --non-local
+./xmlchange STOP_OPTION=ndays --non-local
+./xmlchange STOP_N=2 --non-local
+INFO [CrocoDash.forcing.obc] Using tmask-derived bounding boxes for OBC data download.
+INFO [CrocoDash.forcing.obc] GET [south]: 2020-01-01 → 2020-01-03
+INFO [GLORYS] Downloading Glorys data from RDA to /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/extract_forcings/raw_data/south_unprocessed.2020-01-01_2020-01-03.nc
+INFO [GLORYS] Download of /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/extract_forcings/raw_data/south_unprocessed.2020-01-01_2020-01-03.nc complete.
+INFO [CrocoDash.forcing.obc] GET [north]: 2020-01-01 → 2020-01-03
+INFO [GLORYS] Downloading Glorys data from RDA to /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/extract_forcings/raw_data/north_unprocessed.2020-01-01_2020-01-03.nc
+INFO [GLORYS] Download of /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/extract_forcings/raw_data/north_unprocessed.2020-01-01_2020-01-03.nc complete.
+INFO [CrocoDash.forcing.obc] GET [west]: 2020-01-01 → 2020-01-03
+INFO [GLORYS] Downloading Glorys data from RDA to /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/extract_forcings/raw_data/west_unprocessed.2020-01-01_2020-01-03.nc
+INFO [GLORYS] Download of /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/extract_forcings/raw_data/west_unprocessed.2020-01-01_2020-01-03.nc complete.
+INFO [CrocoDash.forcing.obc] GET [east]: 2020-01-01 → 2020-01-03
+INFO [GLORYS] Downloading Glorys data from RDA to /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/extract_forcings/raw_data/east_unprocessed.2020-01-01_2020-01-03.nc
+INFO [GLORYS] Download of /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/extract_forcings/raw_data/east_unprocessed.2020-01-01_2020-01-03.nc complete.
+INFO [CrocoDash.forcing.obc] REGRID [south]: 30-day slices
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [south]: Spun up new proc
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [south]: Chunk start - end date: [2020-01-01] - [2020-01-03]
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [south]: Selecting raw files
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [south]: Performing regrid
+WARNING [regional_mom6.utils] regional_mom6 could not use pint for data array temp, assuming it's in the correct units
+WARNING [regional_mom6.utils] regional_mom6 could not use pint for data array u, assuming it's in the correct units
+WARNING [regional_mom6.utils] regional_mom6 could not use pint for data array v, assuming it's in the correct units
+WARNING [regional_mom6.validate] temp_segment_001 does not have a coordinates attribute
+WARNING [regional_mom6.validate] salt_segment_001 does not have a coordinates attribute
+WARNING [regional_mom6.validate] u_segment_001 does not have a coordinates attribute
+WARNING [regional_mom6.validate] v_segment_001 does not have a coordinates attribute
+WARNING [regional_mom6.validate] eta_segment_001 does not have a coordinates attribute
+No arakawa_grid provided, assuming the variable mapping for your data product is already in correct format.
+Arakawa A grid detected in variable mapping
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [south]: Regridding done for /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/extract_forcings/regridded_data/forcing_obc_segment_001_2020-01-01_2020-01-03.nc
+INFO [CrocoDash.forcing.obc] REGRID [north]: 30-day slices
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [north]: Spun up new proc
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [north]: Chunk start - end date: [2020-01-01] - [2020-01-03]
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [north]: Selecting raw files
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [north]: Performing regrid
+WARNING [regional_mom6.utils] regional_mom6 could not use pint for data array temp, assuming it's in the correct units
+WARNING [regional_mom6.utils] regional_mom6 could not use pint for data array u, assuming it's in the correct units
+WARNING [regional_mom6.utils] regional_mom6 could not use pint for data array v, assuming it's in the correct units
+WARNING [regional_mom6.validate] temp_segment_002 does not have a coordinates attribute
+WARNING [regional_mom6.validate] salt_segment_002 does not have a coordinates attribute
+WARNING [regional_mom6.validate] u_segment_002 does not have a coordinates attribute
+WARNING [regional_mom6.validate] v_segment_002 does not have a coordinates attribute
+WARNING [regional_mom6.validate] eta_segment_002 does not have a coordinates attribute
+No arakawa_grid provided, assuming the variable mapping for your data product is already in correct format.
+Arakawa A grid detected in variable mapping
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [north]: Regridding done for /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/extract_forcings/regridded_data/forcing_obc_segment_002_2020-01-01_2020-01-03.nc
+INFO [CrocoDash.forcing.obc] REGRID [west]: 30-day slices
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [west]: Spun up new proc
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [west]: Chunk start - end date: [2020-01-01] - [2020-01-03]
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [west]: Selecting raw files
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [west]: Performing regrid
+WARNING [regional_mom6.utils] regional_mom6 could not use pint for data array temp, assuming it's in the correct units
+WARNING [regional_mom6.utils] regional_mom6 could not use pint for data array u, assuming it's in the correct units
+WARNING [regional_mom6.utils] regional_mom6 could not use pint for data array v, assuming it's in the correct units
+WARNING [regional_mom6.validate] temp_segment_003 does not have a coordinates attribute
+WARNING [regional_mom6.validate] salt_segment_003 does not have a coordinates attribute
+WARNING [regional_mom6.validate] u_segment_003 does not have a coordinates attribute
+WARNING [regional_mom6.validate] v_segment_003 does not have a coordinates attribute
+WARNING [regional_mom6.validate] eta_segment_003 does not have a coordinates attribute
+No arakawa_grid provided, assuming the variable mapping for your data product is already in correct format.
+Arakawa A grid detected in variable mapping
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [west]: Regridding done for /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/extract_forcings/regridded_data/forcing_obc_segment_003_2020-01-01_2020-01-03.nc
+INFO [CrocoDash.forcing.obc] REGRID [east]: 30-day slices
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [east]: Spun up new proc
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [east]: Chunk start - end date: [2020-01-01] - [2020-01-03]
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [east]: Selecting raw files
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [east]: Performing regrid
+WARNING [regional_mom6.utils] regional_mom6 could not use pint for data array temp, assuming it's in the correct units
+WARNING [regional_mom6.utils] regional_mom6 could not use pint for data array u, assuming it's in the correct units
+WARNING [regional_mom6.utils] regional_mom6 could not use pint for data array v, assuming it's in the correct units
+WARNING [regional_mom6.validate] temp_segment_004 does not have a coordinates attribute
+WARNING [regional_mom6.validate] salt_segment_004 does not have a coordinates attribute
+WARNING [regional_mom6.validate] u_segment_004 does not have a coordinates attribute
+WARNING [regional_mom6.validate] v_segment_004 does not have a coordinates attribute
+WARNING [regional_mom6.validate] eta_segment_004 does not have a coordinates attribute
+No arakawa_grid provided, assuming the variable mapping for your data product is already in correct format.
+Arakawa A grid detected in variable mapping
+INFO [CrocoDash.forcing.obc] PROC [0] - REGRID [east]: Regridding done for /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/extract_forcings/regridded_data/forcing_obc_segment_004_2020-01-01_2020-01-03.nc
+INFO [CrocoDash.forcing.obc] MERGE [south]
+INFO [CrocoDash.forcing.obc] Saved merged boundary at /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/ocn/forcing_obc_segment_001.nc
+INFO [CrocoDash.forcing.obc] MERGE [north]
+INFO [CrocoDash.forcing.obc] Saved merged boundary at /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/ocn/forcing_obc_segment_002.nc
+INFO [CrocoDash.forcing.obc] MERGE [west]
+INFO [CrocoDash.forcing.obc] Saved merged boundary at /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/ocn/forcing_obc_segment_003.nc
+INFO [CrocoDash.forcing.obc] MERGE [east]
+INFO [CrocoDash.forcing.obc] Saved merged boundary at /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/ocn/forcing_obc_segment_004.nc
+INFO [CrocoDash.forcing.obc] OBC processing complete.
+WARNING [CICE_RESTART] cice_restart has no real time evolution -- the single restart snapshot (/glade/u/home/dbailey/b.e30_alpha09b.B1850C_MTso.ne30_t233_wgx3.360.cice.r.0201-01-01-00000.nc) is being used unchanged for the requested range (20200101 to 20200103). This is a stand-in until a real dated CICE forcing product is available.
+--- xESMF Regridding Info ---
+  Source:        nj=101, ni=72, ncat=5  (36,360 points)  [20.48 MB]
+  Destination:   ny=26, nx=26  (676 points)  [0.01 MB]
+  Method:        nearest_s2d
+  Weights:       generating new weights
+  Periodic:      False
+  Locstream out: False
+-----------------------------
+Generating regridding weights using xESMF with method 'nearest_s2d'...
+--- xESMF Regridding Info ---
+  Source:        nj=101, ni=72  (7,272 points)  [0.99 MB]
+  Destination:   ny=26, nx=26  (676 points)  [0.01 MB]
+  Method:        nearest_s2d
+  Weights:       generating new weights
+  Periodic:      False
+  Locstream out: False
+-----------------------------
+Generating regridding weights using xESMF with method 'nearest_s2d'...
+Creating runoff mapping file(s)...
+/glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/ocn/ESMF_mesh_polwed_4b8a77.nc
+Generating nearest neighbor mapping file...
+  This may take a while depending on the mesh sizes.
+--- xESMF Regridding Info ---
+  Source:        nlat=3000, nlon=7200  (21,600,000 points)  [432.08 MB]
+  Destination:   nlat=24, nlon=24  (576 points)  [0.01 MB]
+  Method:        nearest_d2s
+  Weights:       generating new weights
+  Periodic:      False
+  Locstream out: False
+-----------------------------
+  Generated nearest mapping file in 15.42 seconds at:
+  /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/input/audit_pol_wed/mapping/GLOFAS_to_polwed_map_nn.nc
+Traceback (most recent call last):
+  File "/glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/gap2/polar.py", line 30, in <module>
+    case.process_forcings()
+  File "/glade/u/home/manishrv/documents/croc/regional_mom_workflows/CrocoDash-worktrees/audit/CrocoDash/case.py", line 751, in process_forcings
+    run_workflow(config_path=config_path, **flags)
+  File "/glade/u/home/manishrv/documents/croc/regional_mom_workflows/CrocoDash-worktrees/audit/CrocoDash/forcing/driver.py", line 135, in run_workflow
+    getattr(configurator, method_name)(ctx)
+  File "/glade/u/home/manishrv/documents/croc/regional_mom_workflows/CrocoDash-worktrees/audit/CrocoDash/forcing/runoff.py", line 180, in process
+    mapping.gen_rof_maps(
+  File "/glade/u/home/manishrv/documents/croc/regional_mom_workflows/CrocoDash-worktrees/audit/CrocoDash/visualCaseGen/external/mom6_forge/mom6_forge/mapping.py", line 1184, in gen_rof_maps
+    _check_runoff_conserved(S_coo, area_a, area_b, "nearest neighbor")
+  File "/glade/u/home/manishrv/documents/croc/regional_mom_workflows/CrocoDash-worktrees/audit/CrocoDash/visualCaseGen/external/mom6_forge/mom6_forge/mapping.py", line 1092, in _check_runoff_conserved
+    raise ValueError(f"{label} map maps no runoff at all.")
+ValueError: nearest neighbor map maps no runoff at all.
+EXIT 1

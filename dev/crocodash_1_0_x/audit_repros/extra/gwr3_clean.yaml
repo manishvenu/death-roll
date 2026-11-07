@@ -1,0 +1,52 @@
+grid:
+  supergrid_path: /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/audit/extra/input/audit_gwr2/ocn/ocean_hgrid_gw_162a22.nc
+  name: gw
+topo:
+  min_depth: 10.0
+  source:
+    type: from_file
+    topo_file_path: /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/audit/extra/input/audit_gwr2/ocn/ocean_topog_gw_162a22.nc
+vgrid:
+  type: from_file
+  filename: /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/audit/extra/input/audit_gwr2/ocn/ocean_vgrid_gw_162a22.nc
+case:
+  cesmroot: /glade/u/home/manishrv/work/installs/CESM_crocodash
+  caseroot: /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/audit/extra/cases/audit_gwr3
+  inputdir: /glade/derecho/scratch/manishrv/tmp/claude-44953/-glade-u-home-manishrv-documents-croc/8dbab665-7998-4a92-b4e6-579de0e188a7/scratchpad/audit/extra/input/audit_gwr3
+  compset: 1850_DATM%JRA-1p5-2023_SLND_CICE_MOM6%REGIONAL_DROF%GLOFAS_SGLC_WW3
+  machine: derecho
+  atm_grid_name: TL319
+  rof_grid_name: null
+  ninst: 1
+  project: ncgd0011
+  ntasks_ocn: null
+  job_queue: null
+  job_wallclock_time: null
+forcings:
+  date_range:
+  - '2020-01-01 00:00:00'
+  - '2020-01-05 00:00:00'
+  boundaries:
+  - south
+  - north
+  - west
+  - east
+  product_name: REFERENCE_OCEAN
+  function_name: get_reference_ocean_data
+  start_date: '20200101'
+  end_date: '20200105'
+  stream_year_padding: 1
+  narrow_stream_files: true
+  cice_product_name: reference_ice
+  cice_function_name: get_reference_ice_data
+  cice_function_args: {}
+  restore_ice: true
+  rmax: 200
+  fold: 400
+  rof_grid_name: GLOFAS
+  rof_esmf_mesh_filepath: /glade/campaign/cesm/cesmdata/inputdata/lnd/dlnd7/GLOFAS/GLOFAS.v4.dis24.ESMFmesh_20260501.nc
+  ww3_obc_product_name: reference_waves
+  ww3_obc_function_name: get_reference_wave_spectra
+  ww3_obc_function_overrides: null
+  get_step_days: null
+  regrid_step_days: null

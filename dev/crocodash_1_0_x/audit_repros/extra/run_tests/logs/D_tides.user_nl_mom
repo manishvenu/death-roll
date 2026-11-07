@@ -1,0 +1,140 @@
+!---------------------------------------------------------------------
+! Users should add all user specific MOM_input parameter changes after
+! these comments as follows:
+!   parameter_name = new_parameter_value
+!
+! If the parameter belongs to a parameter block, enter it within the
+! block, or prefixed with the block name, e.g., change N_SMOOTH within
+! the KPP block as follows:
+!   KPP%
+!   N_SMOOTH = 3
+!   %KPP
+! or:
+!   KPP%N_SMOOTH = 3
+!
+! Note: The parameter changes added to this file will automatically be
+!       applied to:
+!   $RUNDIR/MOM_override
+!
+! The diag_table may be changed via lines of the form
+!   diag_table%<stream>%<key> <operator> <value>
+! where <stream> is the name of an output file, e.g., h.native for the
+! files ${CASE}.mom6.h.native.*.nc, and <key> is fields, module, or a
+! file setting (see param_templates/diag_table.yaml), e.g.:
+!   diag_table%h.native%fields += MLD_0125, Kd_heat:Kd_heat_max:max
+!   diag_table%h.native%fields -= KE
+!   diag_table%h.sfc%output_freq = 5
+!   diag_table%h.z%fields = none
+! Fields are given as name[:output_name[:reduction]], and are removed
+! by output name. A new stream also needs the diagnostics module of its
+! fields (ocean_model, ocean_model_z or ocean_model_rho2), e.g.:
+!   diag_table%h.mine%module = ocean_model_z
+!   diag_table%h.mine%fields = thetao, so
+!
+! WARNING: If a MOM_override file is placed in SourceMods/src.mom/,
+! any additional parameter changes in this file will trigger an error,
+! and so will diag_table changes if a diag_table (or
+! diag_table.unresolved) file is placed there.
+!
+! Parameters:
+!---------------------------------------------------------------------
+
+
+
+! Custom Horizonal Grid, Topography, and Vertical Grid
+INPUTDIR = /glade/derecho/scratch/manishrv/ar/i/rD/ocn
+TRIPOLAR_N = False
+REENTRANT_X = False
+REENTRANT_Y = False
+NIGLOBAL = 8
+NJGLOBAL = 8
+GRID_CONFIG = mosaic
+GRID_FILE = ocean_hgrid_rD_66d2a1.nc
+TOPO_CONFIG = file
+TOPO_FILE = ocean_topog_rD_66d2a1.nc
+MAXIMUM_DEPTH = 3000.0
+MINIMUM_DEPTH = 10.0
+NK = 10
+COORD_CONFIG = none
+ALE_COORDINATE_CONFIG = FILE:ocean_vgrid_rD_66d2a1.nc
+REGRIDDING_COORDINATE_MODE = Z*
+
+! Timesteps (based on grid resolution)
+DT = 1800.0
+DT_THERM = 1800.0
+
+! >>> CrocoDash configure_forcings: conditions [sha:e654cfc8] (rewritten on every call; set your own values outside this block)
+
+! Initial conditions
+INIT_LAYERS_FROM_Z_FILE = True
+Z_INIT_ALE_REMAPPING = True
+TEMP_SALT_INIT_VERTICAL_REMAP_ONLY = True
+DEPRESS_INITIAL_SURFACE = True
+VELOCITY_CONFIG = file
+TEMP_SALT_Z_INIT_FILE = init_tracers_filled.nc
+SURFACE_HEIGHT_IC_FILE = init_eta_filled.nc
+VELOCITY_FILE = init_vel_filled.nc
+Z_INIT_FILE_PTEMP_VAR = temp
+Z_INIT_FILE_SALT_VAR = salt
+SURFACE_HEIGHT_IC_VAR = eta_t
+U_IC_VAR = u
+V_IC_VAR = v
+
+! Open boundary conditions
+OBC_NUMBER_OF_SEGMENTS = 4
+OBC_FREESLIP_VORTICITY = False
+OBC_FREESLIP_STRAIN = False
+OBC_COMPUTED_VORTICITY = True
+OBC_COMPUTED_STRAIN = True
+OBC_ZERO_BIHARMONIC = True
+OBC_TRACER_RESERVOIR_LENGTH_SCALE_OUT = 3.0E+04
+OBC_TRACER_RESERVOIR_LENGTH_SCALE_IN = 3000.0
+BRUSHCUTTER_MODE = True
+ENABLE_BUGS_BY_DEFAULT = False
+OBC_SEGMENT_001 = "J=0,I=0:N,FLATHER,ORLANSKI,NUDGED,ORLANSKI_TAN,NUDGED_TAN"
+OBC_SEGMENT_001_VELOCITY_NUDGING_TIMESCALES = 0.3, 360.0
+OBC_SEGMENT_001_DATA = "U=file:forcing_obc_segment_001.nc(u),V=file:forcing_obc_segment_001.nc(v),SSH=file:forcing_obc_segment_001.nc(eta),TEMP=file:forcing_obc_segment_001.nc(temp),SALT=file:forcing_obc_segment_001.nc(salt),Uamp=file:tu_segment_001.nc(uamp),Uphase=file:tu_segment_001.nc(uphase),Vamp=file:tu_segment_001.nc(vamp),Vphase=file:tu_segment_001.nc(vphase),SSHamp=file:tz_segment_001.nc(zamp),SSHphase=file:tz_segment_001.nc(zphase)"
+OBC_SEGMENT_002 = "J=N,I=N:0,FLATHER,ORLANSKI,NUDGED,ORLANSKI_TAN,NUDGED_TAN"
+OBC_SEGMENT_002_VELOCITY_NUDGING_TIMESCALES = 0.3, 360.0
+OBC_SEGMENT_002_DATA = "U=file:forcing_obc_segment_002.nc(u),V=file:forcing_obc_segment_002.nc(v),SSH=file:forcing_obc_segment_002.nc(eta),TEMP=file:forcing_obc_segment_002.nc(temp),SALT=file:forcing_obc_segment_002.nc(salt),Uamp=file:tu_segment_002.nc(uamp),Uphase=file:tu_segment_002.nc(uphase),Vamp=file:tu_segment_002.nc(vamp),Vphase=file:tu_segment_002.nc(vphase),SSHamp=file:tz_segment_002.nc(zamp),SSHphase=file:tz_segment_002.nc(zphase)"
+OBC_SEGMENT_003 = "I=0,J=N:0,FLATHER,ORLANSKI,NUDGED,ORLANSKI_TAN,NUDGED_TAN"
+OBC_SEGMENT_003_VELOCITY_NUDGING_TIMESCALES = 0.3, 360.0
+OBC_SEGMENT_003_DATA = "U=file:forcing_obc_segment_003.nc(u),V=file:forcing_obc_segment_003.nc(v),SSH=file:forcing_obc_segment_003.nc(eta),TEMP=file:forcing_obc_segment_003.nc(temp),SALT=file:forcing_obc_segment_003.nc(salt),Uamp=file:tu_segment_003.nc(uamp),Uphase=file:tu_segment_003.nc(uphase),Vamp=file:tu_segment_003.nc(vamp),Vphase=file:tu_segment_003.nc(vphase),SSHamp=file:tz_segment_003.nc(zamp),SSHphase=file:tz_segment_003.nc(zphase)"
+OBC_SEGMENT_004 = "I=N,J=0:N,FLATHER,ORLANSKI,NUDGED,ORLANSKI_TAN,NUDGED_TAN"
+OBC_SEGMENT_004_VELOCITY_NUDGING_TIMESCALES = 0.3, 360.0
+OBC_SEGMENT_004_DATA = "U=file:forcing_obc_segment_004.nc(u),V=file:forcing_obc_segment_004.nc(v),SSH=file:forcing_obc_segment_004.nc(eta),TEMP=file:forcing_obc_segment_004.nc(temp),SALT=file:forcing_obc_segment_004.nc(salt),Uamp=file:tu_segment_004.nc(uamp),Uphase=file:tu_segment_004.nc(uphase),Vamp=file:tu_segment_004.nc(vamp),Vphase=file:tu_segment_004.nc(vphase),SSHamp=file:tz_segment_004.nc(zamp),SSHphase=file:tz_segment_004.nc(zphase)"
+! <<< CrocoDash configure_forcings: conditions
+
+! >>> CrocoDash configure_forcings: tides [sha:ebc4a49b] (rewritten on every call; set your own values outside this block)
+
+! Enable tidal forcing in MOM6
+TIDES = True
+
+! Enable M2 tidal constituent
+TIDE_M2 = True
+
+! Drag coefficient for tidal forcing
+CD_TIDES = 0.0018
+
+! Use equilibrium phase for tides
+TIDE_USE_EQ_PHASE = True
+
+! Reference date for tidal forcing
+TIDE_REF_DATE = 2020, 01, 01
+
+! Add equilibrium phase to OBC tides
+OBC_TIDE_ADD_EQ_PHASE = True
+
+! Number of tidal constituents
+OBC_TIDE_N_CONSTITUENTS = 1
+
+! List of tidal constituents
+OBC_TIDE_CONSTITUENTS = "M2"
+
+! Reference date for OBC tidal forcing
+OBC_TIDE_REF_DATE = 2020, 01, 01
+! <<< CrocoDash configure_forcings: tides
+
+diag_table%h.sfc%output_freq = 2
+diag_table%h.sfc%output_freq_units = hours
+diag_table%h.sfc%fields += SSH

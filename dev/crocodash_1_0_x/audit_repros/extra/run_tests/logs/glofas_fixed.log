@@ -1,0 +1,35 @@
+2026-11-06 22:43:52,031 INFO [2026-10-26T00:00:00Z] **Data Stores Service protection measures** affecting data downloads and account access: [please read our Announcement](https://forum.ecmwf.int/t/data-stores-service-protection-measures-affecting-data-downloads-and-account-access-cds-ads-ewds-ecds/15481) before enquiring with ECMWF Support.
+2026-11-06 22:43:52,907 INFO [2026-10-26T00:00:00Z] **Data Stores Service protection measures** affecting data downloads and account access: [please read our Announcement](https://forum.ecmwf.int/t/data-stores-service-protection-measures-affecting-data-downloads-and-account-access-cds-ads-ewds-ecds/15481) before enquiring with ECMWF Support.
+2026-11-06 22:43:53,330 INFO [2024-02-01T00:00:00] Please note that accessing this dataset via CDS for time-critical operation is not advised or supported
+2026-11-06 22:43:53,330 INFO [2024-02-01T00:00:00] Please note we suggest checking the list of known issues on the GloFAS wiki
+[here](https://confluence.ecmwf.int/display/CEMS/GloFAS+-+Known+Issues)
+before downloading the dataset.
+2026-11-06 22:43:53,330 INFO [2026-07-30T00:00:00] Due to changes in the data structure of the cems-glofas-historical dataset, previous API requests may no longer work. Please refer to the updated API request and update your scripts accordingly. Please refer to [GloFAS historical: Changes to the EWDS API Request](https://confluence.ecmwf.int/pages/viewpage.action?pageId=699325478) for more information.
+2026-11-06 22:43:53,330 INFO Request ID is 5b1d6dc1-487b-4b9b-9521-253f08679df3
+2026-11-06 22:43:53,506 INFO status has been updated to accepted
+2026-11-06 22:44:07,581 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2026-11-06 22:44:07,581 INFO status has been updated to running
+2026-11-06 22:44:15,362 INFO status has been updated to successful
+FAILED with ['area', 'data_format', 'day', 'download_format', 'hydrological_model', 'month', 'product_type', 'system_version', 'variable', 'year'] | 400 Client Error: Bad Request for url: https://ewds.climate.copernicus.eu/api/retrieve/v1/processes/cems-glofas-historical/execution
+invalid request
+Request has not produced a valid combination of values, please check your selection.
+{'area': ['31', '-98', '18', '-80'], 'data_format': ['netcdf'], 'd
+ae3b37f9a0843ea8178d24c10ac6bacf.nc:   0%|          | 0.00/67.2k [00:00<?, ?B/s]ae3b37f9a0843ea8178d24c10ac6bacf.nc: 100%|██████████| 67.2k/67.2k [00:00<00:00, 90.2kB/s]                                                                                         OK with ['area', 'data_format', 'day', 'download_format', 'hydrological_model', 'month', 'product_type', 'system_version', 'timespan', 'variable', 'year']
+is zip False
+<xarray.Dataset> Size: 379kB
+Dimensions:     (valid_time: 1, latitude: 260, longitude: 360)
+Coordinates:
+  * valid_time  (valid_time) datetime64[ns] 8B 2020-01-16
+  * latitude    (latitude) float64 2kB 30.98 30.93 30.88 ... 18.12 18.07 18.02
+  * longitude   (longitude) float64 3kB 262.0 262.1 262.1 ... 279.9 279.9 280.0
+    surface     float64 8B ...
+Data variables:
+    avg_dis     (valid_time, latitude, longitude) float32 374kB ...
+Attributes:
+    GRIB_edition:            2
+    GRIB_centre:             ecmf
+    GRIB_centreDescription:  European Centre for Medium-Range Weather Forecasts
+    GRIB_subCentre:          0
+    Conventions:             CF-1.7
+    institution:             European Centre for Medium-Range Weather Forecasts
+EXIT 0
