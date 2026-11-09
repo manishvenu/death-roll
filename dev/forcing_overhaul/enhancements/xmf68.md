@@ -1,0 +1,1 @@
+Closing. The ESMF file-type error found here was fixed in #91, which writes `degrees_east`/`degrees_north` units on the source bathymetry. The MPI path is now `mpi_set_depth_from_xesmf`, and its docstring walks through the `mpirun … ESMF_Regrid` steps. The few prints left are cosmetic.

@@ -1,0 +1,1 @@
+Closing: fixed by another route. `setup_bathymetry` now hands the work to mom6_forge's `Topo.set_from_dataset`, and NCAR/mom6_forge#91 writes `degrees_east`/`degrees_north` units into `bathymetry_original.nc`.

@@ -131,4 +131,6 @@ blocks working on a case read back from its caseroot.
 - **Real-case check still to run by hand:** on Derecho, create two cases in one notebook,
   then configure the first and then the second.
 
+Closes #250
+
 🤖 Generated with [Claude Code](https://claude.com/claude-code)

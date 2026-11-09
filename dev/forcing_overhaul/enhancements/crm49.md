@@ -1,0 +1,1 @@
+Note for whoever picks this up: the 33 `print` calls in `regional_mom6.py` match COSIMA's upstream file line for line, so converting them in the fork will conflict with future merges from COSIMA. The fork's own modules (`regridding.py`, `utils.py`) already use logging.

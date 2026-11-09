@@ -124,4 +124,6 @@ Cut from #302/#303:
 - POP records are dated at the first day of their averaging interval at every
   cadence, monthly or daily.
 
+Closes #247
+
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
