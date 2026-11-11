@@ -20,8 +20,8 @@
 	path = regional_mom_workflows/archive/mom6_bathy
 	url = https://github.com/NCAR/mom6_bathy
 [submodule "dev/SeaSloth"]
-	path = dev/SeaSloth
-	url = git@github.com:CROCODILE-CESM/SeaSloth.git
+	path = dev/CrocoDashChecks
+	url = git@github.com:CROCODILE-CESM/CrocoDashChecks.git
 [submodule "regional_mom_workflows/crocontainer"]
 	path = regional_mom_workflows/crocontainer
 	url = git@github.com:CROCODILE-CESM/crocontainer.git

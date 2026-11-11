@@ -13,7 +13,7 @@ Key submodules:
 - `regional_mom_workflows/regional-mom6` — MOM6 configuration, forcing generation, regridding
 - `regional_mom_workflows/mom6_forge` — Grid, bathymetry, and vertical grid generation
 - `regional_mom_workflows/visualCaseGen` — Jupyter GUI for CESM case creation (constraint-satisfaction driven)
-- `dev/SeaSloth` — Performance benchmarking suite for CrocoDash/mom6_forge/xESMF; tracks operation timing across commits and publishes an interactive HTML dashboard via ASV
+- `dev/CrocoDashChecks` — CrocoDashChecks (renamed from SeaSloth): checks CrocoDash end to end on NCAR systems — weekly CESM runs of MOM_interface's regional SMS tests on Derecho, a daily data-access check on Casper, and hand-run performance benchmarks — and publishes the results to https://crocodile-cesm.github.io/CrocoDashChecks/. The scheduled jobs run from the CI clone in `/glade/work/$USER/croc_ci/CrocoDashChecks` (hard-reset on every run, so never edit there), submitted by the crontab on `cron.hpc.ucar.edu`. See its own `CLAUDE.md`
 - `regional_mom_workflows/gallery` — CrocoGallery, is the main demo and tutorial place for CrocoDash
 
 ## Important Paths on GLADE
