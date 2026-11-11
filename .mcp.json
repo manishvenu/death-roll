@@ -1,19 +1,26 @@
 {
   "mcpServers": {
     "crocodash": {
-      "command": "/glade/work/manishrv/conda-envs/CrocoDash/bin/python",
+      "command": "/glade/work/manishrv/conda-envs/dev_cd/bin/python",
       "args": ["/glade/u/home/manishrv/documents/croc/dev/MCP_CrocoDash/server.py"],
       "env": {
-        "CIME_MACHINE": "derecho"
+        "CIME_MACHINE": "derecho",
+        "ESMFMKFILE": "/glade/work/manishrv/conda-envs/dev_cd/lib/esmf.mk"
       }
     },
     "cesm-runner": {
-      "command": "/glade/work/manishrv/conda-envs/CrocoDash/bin/python",
-      "args": ["/glade/u/home/manishrv/documents/croc/dev/MCP_cesm_runner/server.py"]
+      "command": "/glade/work/manishrv/conda-envs/dev_cd/bin/python",
+      "args": ["/glade/u/home/manishrv/documents/croc/dev/MCP_cesm_runner/server.py"],
+      "env": {
+        "ESMFMKFILE": "/glade/work/manishrv/conda-envs/dev_cd/lib/esmf.mk"
+      }
     },
     "ocean-debugger": {
-      "command": "/glade/work/manishrv/conda-envs/CrocoDash/bin/python",
-      "args": ["/glade/u/home/manishrv/documents/croc/dev/MCP_regional_ocean_debugger/server.py"]
+      "command": "/glade/work/manishrv/conda-envs/dev_cd/bin/python",
+      "args": ["/glade/u/home/manishrv/documents/croc/dev/MCP_regional_ocean_debugger/server.py"],
+      "env": {
+        "ESMFMKFILE": "/glade/work/manishrv/conda-envs/dev_cd/lib/esmf.mk"
+      }
     }
   }
 }

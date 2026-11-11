@@ -21,3 +21,8 @@ PET*.ESMF_LogFile
 # Local scratch notebook dirs (not tracked upstream)
 mom6_forge_notebooks/
 regional_mom_workflows/Bask/
+# Git worktrees of the submodules (one per branch being worked on)
+worktrees/
+
+# Third-party clones the GridSketcher exploration builds against
+dev/mom6_forge_gridsketcher/external/

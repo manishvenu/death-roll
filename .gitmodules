@@ -55,3 +55,12 @@
 [submodule "dev/WW3_interface"]
 	path = dev/WW3_interface
 	url = git@github.com:CROCODILE-CESM/WW3_interface.git
+[submodule "dev/MCP_dart"]
+	path = dev/MCP_dart
+	url = git@github.com:manishvenu/MCP_dart.git
+[submodule "dev/MCP_model2obs"]
+	path = dev/MCP_model2obs
+	url = git@github.com:manishvenu/MCP_model2obs.git
+[submodule "dev/MCP_mom6_tools"]
+	path = dev/MCP_mom6_tools
+	url = git@github.com:CROCODILE-CESM/MCP_mom6_tools.git

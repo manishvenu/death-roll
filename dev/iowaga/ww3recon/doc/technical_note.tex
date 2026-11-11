@@ -1,0 +1,257 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage{amsmath,amssymb,booktabs,hyperref,microtype}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\hypersetup{colorlinks,linkcolor=black,urlcolor=blue!50!black}
+\setlength{\parskip}{4pt}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\Hs}{H_s}
+
+\title{\texttt{ww3recon}: reconstructing $E(f,\theta)$ from WW3 partition parameters\\[4pt]
+\large Technical note}
+\author{2026 wave coupling project}
+\date{2026-09-16, package version 0.2}
+
+\begin{document}
+\maketitle
+
+\section{Problem}
+
+WAVEWATCH III archives such as IOWAGA \texttt{GLOBMULTI\_ERA5\_GLOBCUR\_01} store, at every grid
+cell and time, up to six spectral partitions $k=0,\dots,5$ (0 = wind sea, 1--5 = swell systems
+ordered by energy) with five bulk parameters each, plus whole-spectrum integrals:
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+archive field & symbol & meaning & used for\\
+\midrule
+\texttt{phs}$_k$ & $\Hs^{(k)}$ & partition significant height [m] & partition energy $m_0^{(k)}$\\
+\texttt{ptp}$_k$ & $T_p^{(k)}$ & partition peak period [s] & peak frequency $f_p^{(k)} = 1/T_p^{(k)}$\\
+\texttt{pdir}$_k$ & $\bar\theta^{(k)}$ & partition mean direction (\emph{coming-from}) & directional centre\\
+\texttt{pspr}$_k$ & $\sigma_\theta^{(k)}$ & partition directional spread [deg] & directional width\\
+\texttt{pws}$_k$ & $w^{(k)}$ & wind-sea fraction in the partition & family blend\\
+\texttt{hs}, \texttt{t0m1}, \texttt{t02} & $\Hs$, $T_{m0,-1}$, $T_{m02}$ & whole-spectrum integrals & closure check, shape fit, tail fit\\
+\bottomrule
+\end{tabular}
+\end{center}
+Storage is about 1/30 of the full spectrum. The task is to rebuild a directional variance density
+$E(f,\theta)$ on the native grid (36 frequencies, $f_i = 0.0339\,\mathrm{Hz}\times1.1^{\,i}$; 24 directions at
+$15^\circ$) that reproduces the archived integrals and is as close as possible to the archived 2D spectrum.
+
+\section{Grid, moments and conventions}
+
+Frequency bin widths follow WW3's own rule for a geometric ladder with ratio $r$,
+\begin{equation}
+\Delta f_i = \tfrac12 f_i\,(r - 1/r), \qquad \Delta\theta = 2\pi/24 .
+\end{equation}
+Spectral moments and the bulk parameters are discrete sums on this grid,
+\begin{equation}
+m_n = \sum_{i,j} f_i^{\,n}\,E(f_i,\theta_j)\,\Delta f_i\,\Delta\theta,\qquad
+\Hs = 4\sqrt{m_0},\quad T_{m0,-1} = \frac{m_{-1}}{m_0},\quad T_{m02} = \sqrt{\frac{m_0}{m_2}} .
+\end{equation}
+All archived integrals are truncated at the grid edge ($0.95\,$Hz), so every moment in the fit is
+evaluated on the same truncated grid; comparing a reconstruction integrated on a finer or extended
+grid to an archived value is not a fair comparison.
+
+\paragraph{Direction conventions.} The archive's \texttt{pdir}$_k$, \texttt{dir} and \texttt{wnddir}
+are \emph{coming-from} directions. The 2D spectrum axis is \emph{going-to}
+(\texttt{sea\_surface\_wave\_to\_direction}, nautical degrees clockwise from north, stored in
+descending order). Partition directions are rotated $\bar\theta^{(k)} \mapsto \bar\theta^{(k)} + 180^\circ$
+before use, and the spectrum's direction axis is sorted ascending. Both are confirmed from file
+metadata, not inferred.
+
+\section{Model}
+
+Each partition is a separable product of a frequency shape and a directional distribution, and the
+partitions are summed:
+\begin{equation}
+E(f,\theta) = \sum_{k} m_0^{(k)}\, S^{(k)}(f)\, D^{(k)}(\theta),
+\qquad m_0^{(k)} = \frac{\big(\Hs^{(k)}\big)^2}{16},
+\label{eq:model}
+\end{equation}
+with $S^{(k)}$ normalised so that $\sum_i S^{(k)}(f_i)\Delta f_i = 1$ and $D^{(k)}$ so that
+$\sum_j D^{(k)}(\theta_j)\Delta\theta = 1$. Consequently
+$m_0 = \sum_k m_0^{(k)}$ exactly, i.e.\ $\Hs$ is conserved partition by partition by construction,
+and the sum is invariant to the partition labelling, so index swapping between neighbouring cells
+does no harm. Absent partitions (NaN in the archive) are skipped.
+
+\subsection{Frequency shape}
+
+The shape of partition $k$ is a blend of a wind-sea family $S_{\mathrm{ws}}$ and a swell family
+$S_{\mathrm{sw}}$, both peaked at $f_p^{(k)}$ and normalised to unit $m_0$, weighted by the wind-sea
+fraction:
+\begin{equation}
+S^{(k)} = \omega^{(k)} S_{\mathrm{ws}}(f;\,f_p^{(k)},\,\Omega_c) + \big(1-\omega^{(k)}\big) S_{\mathrm{sw}}(f;\,f_p^{(k)},\,\lambda),
+\qquad
+\omega^{(k)} = \operatorname{clip}\!\Big(\frac{w^{(k)}-0.3}{0.7-0.3},\,0,\,1\Big).
+\end{equation}
+Blending the normalised shapes rather than switching on a threshold keeps time series continuous when
+\texttt{pws} crosses the threshold. Two shape parameters, $\Omega_c$ and $\lambda$, are shared by all
+partitions of a point and are the only free quantities; they are determined in Section~\ref{sec:fit}.
+
+\paragraph{Wind sea: Elfouhaily et al.\ (1997) long-wave branch (default).}
+The gravity-wave part of the unified spectrum is a curvature spectrum $B_l(k)$ parameterised by the
+inverse wave age $\Omega_c = U_{10}/c_p$:
+\begin{align}
+B_l(k) &= \tfrac12\,\alpha_p\,\frac{c_p}{c(k)}\,F_p(k),\qquad
+F_p = L_{PM}\,J_p\,\exp\!\Big[-\frac{\Omega_c}{\sqrt{10}}\Big(\sqrt{k/k_p}-1\Big)\Big],\\
+L_{PM} &= \exp\!\big[-\tfrac54 (k_p/k)^2\big],\qquad
+J_p = \gamma^{\Gamma},\quad
+\Gamma = \exp\!\Big[-\frac{(\sqrt{k/k_p}-1)^2}{2\sigma^2}\Big],\quad
+\sigma = 0.08\,(1 + 4/\Omega_c^3),\\
+\gamma &= \begin{cases}1.7 & \Omega_c \le 1\\ 1.7 + 6\log_{10}\Omega_c & \Omega_c>1\end{cases},
+\qquad \alpha_p = 0.006\sqrt{\Omega_c},
+\qquad c(k) = \sqrt{\tfrac{g}{k}\big(1+(k/k_m)^2\big)},\ k_m = 370\,\mathrm{rad\,m^{-1}} .
+\end{align}
+It is mapped to frequency with the deep-water dispersion relation $k = (2\pi f)^2/g$ and Jacobian
+$\dd k/\dd f = 8\pi^2 f/g$: $S_{\mathrm{ws}}(f) \propto B_l(k)\,k^{-3}\,\dd k/\dd f$, with $k_p$ set from
+$f_p^{(k)}$. Because the shape is renormalised to $m_0^{(k)}$, the Elfouhaily amplitude prediction is
+discarded and only the shape survives: a JONSWAP-like form whose peak enhancement and width are tied
+to one physical parameter, $\Omega_c\in[0.84, 5]$, with the $f^{-4}$-to-$f^{-5}$ transition of the
+high-frequency slope built in. The capillary branch $B_h$ peaks at $\sim$96 Hz and contributes nothing
+on the native grid. Alternatives available in the package: JONSWAP ($\gamma$), Donelan ($\gamma$,
+$f^{-4}$), Pierson--Moskowitz (no parameter); these three carry a free tail exponent $n$
+(Section~\ref{sec:tail}).
+
+\paragraph{Swell: single Ochi--Hubble component (default).}
+With $x = f/f_p^{(k)}$ and shape parameter $\lambda\in[1,12]$,
+\begin{equation}
+S_{\mathrm{sw}}(f) \propto x^{-(4\lambda+1)}\exp\!\Big[-\frac{4\lambda+1}{4}\,x^{-4}\Big] ,
+\end{equation}
+which reduces to Bretschneider at $\lambda=1$, sharpens as $\lambda$ grows, keeps a power-law
+high-frequency tail and is strictly positive. A Gaussian in $f$ is also available; on real WW3
+spectra it fails (spectral correlation $\approx0.69$ versus $0.90$), because the sum of narrow
+Gaussians is a comb with gaps between partitions whereas WW3 spectra are smooth. Ochi--Hubble's
+tails fill those gaps.
+
+\subsection{Directional distribution}
+
+Each partition uses a cosine-power distribution centred on its mean direction:
+\begin{equation}
+D^{(k)}(\theta_j) = \frac{\cos^{2s_k}\!\big(\tfrac12\,\Delta_j\big)}
+{\sum_{j'}\cos^{2s_k}\!\big(\tfrac12\,\Delta_{j'}\big)\,\Delta\theta},
+\qquad
+\Delta_j = \operatorname{wrap}_{(-\pi,\pi]}\big(\theta_j - \bar\theta^{(k)}\big),
+\label{eq:cos2s}
+\end{equation}
+normalised numerically on the 24 bins (the analytic $\Gamma$-function constant leaves percent-level
+energy errors for narrow swell on so coarse a grid). The exponent follows from the archived spread by
+inverting the first-moment (Kuik) relation for this family: with $\langle\cos\Delta\rangle = s/(s+1)$
+and $\sigma_\theta^2 = 2(1-\langle\cos\Delta\rangle)$,
+\begin{equation}
+s_k = \frac{2}{\big(\sigma_\theta^{(k)}\big)^2} - 1,\qquad s_k\in[0.5, 200] .
+\end{equation}
+Thus each partition's first directional moment $(a_1,b_1)$ matches its archived direction and
+spread in the continuum limit; on the discrete grid the match is approximate.
+
+The wrap in \eqref{eq:cos2s} matters. Without it, a partition centred at $330^\circ$ sees the
+$0^\circ$ bin as an offset of $-330^\circ$, $\cos(-165^\circ)<0$ is clipped to zero and every bin
+across the $0/360$ seam receives no energy from that partition. Renormalisation hides the loss from
+$\Hs$ but not from the spectral shape. This was present in the first real-data run and fixed on
+2026-09-16; it moved the extratropical site from 0.869 to 0.896 spectral correlation.
+
+\section{Fitting the shape parameters}
+\label{sec:fit}
+
+The archive provides one more integral than \eqref{eq:model} uses: $T_{m0,-1}$. Since $m_{-1}$ is
+linear in the partition energies and, for a unit-$m_0$ shape, the ratio
+\begin{equation}
+\rho_{\mathrm{ws}}(f_p,\Omega_c) = \frac{m_{-1}}{m_0}\Big|_{S_{\mathrm{ws}}},\qquad
+\rho_{\mathrm{sw}}(f_p,\lambda) = \frac{m_{-1}}{m_0}\Big|_{S_{\mathrm{sw}}}
+\end{equation}
+depends only on the peak frequency and the shape parameter, the constraint reads
+\begin{equation}
+\underbrace{\sum_k m_0^{(k)}\,\omega^{(k)}\,\rho_{\mathrm{ws}}\big(f_p^{(k)},\Omega_c\big)}_{A_{\mathrm{ws}}(\Omega_c)}
++\underbrace{\sum_k m_0^{(k)}\,\big(1-\omega^{(k)}\big)\,\rho_{\mathrm{sw}}\big(f_p^{(k)},\lambda\big)}_{A_{\mathrm{sw}}(\lambda)}
+= T_{m0,-1}\,\sum_k m_0^{(k)} \equiv \mathcal{T} .
+\end{equation}
+The right-hand side uses the \emph{sum of the partition energies}, not the archived $m_0$, so that
+the shape fit is decoupled from any energy the partitioning failed to capture (closure
+$\sum_k (\Hs^{(k)})^2/\Hs^2$ is reported separately as a diagnostic; it is 1.000 for IOWAGA).
+$\rho_{\mathrm{ws}}$ and $\rho_{\mathrm{sw}}$ are tabulated once on a $(f_p,\text{parameter})$ grid
+(96 log-spaced $f_p$ values, 45 parameter values) on the truncated native grid, so that truncation is
+included; the per-point fit is then a table lookup and a vectorised search rather than an optimiser call.
+
+One equation for two unknowns is under-determined, so weak quadratic priors break the degeneracy:
+\begin{equation}
+(\Omega_c,\lambda) = \arg\min\;
+\Big(\frac{A_{\mathrm{ws}}(\Omega_c)+A_{\mathrm{sw}}(\lambda)-\mathcal{T}}{\epsilon\,|\mathcal{T}|}\Big)^2
++ \Lambda\Big(\frac{\Omega_c-\Omega_c^0}{\Delta\Omega_c}\Big)^2
++ \Lambda\Big(\frac{\lambda-\lambda^0}{\Delta\lambda}\Big)^2,
+\end{equation}
+with $\epsilon = 0.01$ (relative tolerance on $T_{m0,-1}$), $\Lambda=0.7$, priors
+$\Omega_c^0 = 1.5$, $\lambda^0 = 3$, and $\Delta(\cdot)$ the parameter range, which makes $\Lambda$
+dimensionless and family-independent. The minimum is found by exhaustive search on the tabulated
+grid. Where a point contains only one family the fit is exactly determined and the other prior is
+inert; such points are flagged \texttt{underconstrained\_ws/sw}. Because there are exactly as many
+constraints as free parameters, the priors are load-bearing, and matching $T_{m0,-1}$ does not by
+itself prevent an unphysical shape---this is why the choice of swell family, not the fit, dominates
+the skill.
+
+\subsection{Tail exponent}
+\label{sec:tail}
+
+For wind-sea families with a free high-frequency exponent $n$ ($S\propto f^{-n}$; JONSWAP, Donelan,
+Pierson--Moskowitz), a second stage picks $n\in\{3.5,4,\dots,6\}$ to match the archived $T_{m02}$
+through $m_2 = m_0/T_{m02}^2$, which is tail-weighted and therefore carries the information the
+first stage does not use. Stages alternate twice. For the Elfouhaily default the slope is intrinsic
+and this stage is skipped. With either choice the reconstructed $E(f)$ runs $\sim$50\% low above
+$0.3\,$Hz at all validated sites; this is the largest open error source for tail-weighted
+quantities such as Stokes drift.
+
+\section{Assembly and conserved quantities}
+
+With $(\Omega_c,\lambda)$ fixed, the spectrum follows from \eqref{eq:model}. What is conserved:
+\begin{itemize}\itemsep2pt
+\item $m_0$ per partition and in total (exact, by normalisation), hence $\Hs$ up to the archive's own
+partition closure;
+\item $T_{m0,-1}$ to the tolerance $\epsilon$ where the priors do not dominate;
+\item $T_{m02}$ approximately, when a free tail exponent is available;
+\item per-partition mean direction and first-moment spread (continuum-exact, discretely approximate).
+\end{itemize}
+Not constrained: the whole-spectrum \texttt{dir}/\texttt{spr}, the second directional moments
+$(a_2,b_2)$, and the shape of the high-frequency tail above $\sim$0.3 Hz.
+
+\section{Validation summary}
+
+Self-partition mode (partitions derived from the truth spectrum by a local watershed, so the numbers
+are the method's intrinsic ceiling without grid-to-station sampling error), January 1993,
+248 three-hourly steps per site, Elfouhaily + Ochi--Hubble:
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+site & spectral corr.\ (mean) & corr.\ p10 & $\Hs$ scatter index\\
+\midrule
+Tropical Eq.\ Pacific (0N 140W) & 0.917 & 0.877 & 1.1\%\\
+Extratropical N Atlantic (52N 30W) & 0.896 & 0.830 & 0.15\%\\
+Southern Ocean deep (58S 90W) & 0.890 & 0.838 & 0.31\%\\
+N California offshore (38N 124W) & 0.901 & 0.830 & 0.45\%\\
+\bottomrule
+\end{tabular}
+\end{center}
+The spectral correlation is $\langle E_{\mathrm{rec}},E_{\mathrm{true}}\rangle/\|E_{\mathrm{rec}}\|\|E_{\mathrm{true}}\|$
+with the $\Delta f\Delta\theta$ inner product. The four wind-sea families lie within 0.004 of each
+other; replacing Ochi--Hubble by a Gaussian swell costs about 0.2. With the archive's own partitions read from the gridded monthly file
+(\texttt{example\_reconstruct\_from\_nc.py}) the same month gives 0.885 (p10 0.821) at the
+extratropical site and 0.910 (p10 0.863) at the tropical site; the gap to the self-partition numbers
+is the grid-cell-to-station sampling penalty plus the difference between WW3's partitioning and the
+local watershed. $\Hs$ and $T_{m0,-1}$ are reproduced to $<0.1\%$ in both modes.
+
+\section{Known limitations}
+\begin{itemize}\itemsep2pt
+\item Deep water only: $k=(2\pi f)^2/g$ throughout.
+\item The $a_1$-based mapping from \texttt{pspr} to $s$ has not been confirmed against the archive's
+definition; if \texttt{pspr} is $a_2$-based the exponent should be obtained by numerical inversion.
+\item Tail deficit above 0.3 Hz (see Section~\ref{sec:tail}).
+\item \texttt{ptp} is quantised to the native frequency bins, which limits narrow swell.
+\end{itemize}
+
+\section*{References}
+\begin{itemize}\itemsep1pt
+\item Elfouhaily, T., B. Chapron, K. Katsaros, D. Vandemark (1997). A unified directional spectrum for long and short wind-driven waves. \emph{J.\ Geophys.\ Res.} 102(C7), 15781--15796.
+\item Ochi, M. K., E. N. Hubble (1976). Six-parameter wave spectra. \emph{Proc.\ 15th Coastal Eng.\ Conf.}, 301--328.
+\item Kuik, A. J., G. Ph.\ van Vledder, L. H. Holthuijsen (1988). A method for the routine analysis of pitch-and-roll buoy wave data. \emph{J.\ Phys.\ Oceanogr.} 18, 1020--1034.
+\item Hanson, J. L., O. M. Phillips (2001). Automated analysis of ocean surface directional wave spectra. \emph{J.\ Atmos.\ Oceanic Technol.} 18, 277--293.
+\end{itemize}
+\end{document}

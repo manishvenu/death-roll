@@ -245,7 +245,11 @@ git submodule update --init data/transcripts
 
 Use **crocontainer** (`regional_mom_workflows/crocontainer/`) to run CESM interactively
 inside a container — no PBS queue, no wait. The CESM Runner MCP manages the container
-session; lifecycle tools (`case_build`, `case_submit`) route through it via `container=`.
+session. The container only builds and runs cases for its own CIME machine
+(`ubuntu-latest`), so a host case (e.g. `machine=derecho`) goes in as a **bundle**:
+`run_case_in_container` forks it for `ubuntu-latest` into `/workspace/case`, then builds
+and runs it. `container=` on `case_setup`/`case_build`/`case_submit` only works on that
+in-container case; the runner refuses it for a derecho/casper case.
 
 **Runtimes:**
 - **Derecho → Apptainer** — uses a writable sandbox built once from the registry image.
@@ -255,22 +259,21 @@ session; lifecycle tools (`case_build`, `case_submit`) route through it via `con
   User specifies a local `inputdata_dir` (pre-downloaded NYF data, ~6.5 GB).
 
 **One-time Derecho setup** (build the Apptainer sandbox, ~1 hr):
-```bash
-build_sandbox()   # via MCP, or:
-qcmd -l walltime=03:00:00 -- apptainer build --sandbox \
-  /glade/derecho/scratch/$USER/crocontainer_sandbox \
-  docker://ghcr.io/crocodile-cesm/crocontainer:latest-amd64
 ```
+build_sandbox()               # via MCP: qsubs the build, returns the job id at once
+build_sandbox(rebuild=True)   # refresh a stale sandbox (old one moved to .old-<ts>, not deleted)
+```
+Rebuild the sandbox whenever crocontainer's `run_case.sh` changes; an old sandbox runs the old script.
 
 **Typical fast-iteration session:**
 ```
+bundle_case("~/croc_cases/mycase", "~/scratch/croc_bundles")      # CrocoDash MCP
 start_container(scratch_dir="~/scratch/croc_scratch")
-case_setup(case_dir, container="croc_session")
-case_build(case_dir, container="croc_session")        # interactive, no queue
-case_submit(case_dir, no_batch=True, container="croc_session")   # runs live
-# Debugger MCP finds error → fix → resubmit in same conversation:
-xmlchange(case_dir, "DT", "900")
-case_submit(case_dir, no_batch=True, container="croc_session")
+run_case_in_container("croc_session", "~/scratch/croc_bundles/mycase_case_bundle")
+  # forks to /workspace/case (ubuntu-latest), builds and runs it; no queue
+# Debugger MCP finds error → fix → resubmit in the same container case:
+container_exec("croc_session", "/workspace/case", "./xmlchange DT=900")
+case_submit("/workspace/case", no_batch=True, container="croc_session")
 stop_container("croc_session")
 ```
 
