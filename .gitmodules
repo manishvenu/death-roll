@@ -1,18 +1,9 @@
-[submodule "regional_mom_workflows/crr"]
-	path = regional_mom_workflows/crr
-	url = https://github.com/CROCODILE-CESM/crocodile-regional-ruckus
-[submodule "regional_mom_workflows/rm6/regional-mom6"]
-	path = regional_mom_workflows/rm6/regional-mom6
-	url = https://github.com/CROCODILE-CESM/regional-mom6
 [submodule "regional_mom_workflows/CrocoDash"]
 	path = regional_mom_workflows/CrocoDash
 	url = https://github.com/CROCODILE-CESM/CrocoDash
 [submodule "regional_mom_workflows/older_workflows/rm6/regional-mom6"]
 	path = regional_mom_workflows/older_workflows/rm6/regional-mom6
 	url = https://github.com/CROCODILE-CESM/regional-mom6
-[submodule "dev/CrocoLens"]
-	path = dev/CrocoLens
-	url = https://github.com/CROCODILE-CESM/CrocoLens/
 [submodule "dev/pyDARTdiags"]
 	path = dev/pyDARTdiags
 	url = git@github.com:NCAR/pyDARTdiags.git
